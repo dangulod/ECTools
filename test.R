@@ -36,3 +36,10 @@ ad.te
 
 pepe = new(Persona, 39, 0)
 juan = new(Persona, 27, 0)
+
+pepe$print()
+
+pepe$ano(1)
+juan$ano(1)
+
+
