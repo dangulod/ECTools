@@ -1,0 +1,20 @@
+Package: ECTools
+Type: Package
+Title: Economic Capital Tools
+Version: 0.1.2
+Author: Economic Capital Models
+Maintainer: <angulo.davi@gmail.com.es>
+Description: Usefull functions for Economic Capital 
+License: 
+Encoding: UTF-8
+LazyData: true
+Depends:
+    mnormt,
+    dplyr (>= 0.5.0),
+    ggplot2 (>= 2.2.1), 
+    tidyr,
+    grid
+RoxygenNote: 6.0.1
+LinkingTo: Rcpp
+Repository: CRAN
+Imports: Rcpp
