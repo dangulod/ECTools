@@ -34,4 +34,5 @@ cum_pd(mat, horizon =  10)
 
 ad.te
 
-
+pepe = new(Persona, 39, 0)
+juan = new(Persona, 27, 0)
