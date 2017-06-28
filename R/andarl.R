@@ -58,12 +58,12 @@ ad.test <- function(x, null="punif", ..., nullname) {
   U <- sort(U)
   k <- seq_len(n)
   ## call Marsaglia C code
-  z <- .Call("ECTools_ADtestR",
-          x = as.double(U),
-          n = as.integer(n),
-          adstat = as.double(numeric(1)),
-          pvalue = as.double(numeric(1)),
-          PACKAGE="ECTools"
+  z <- .C("ADtestR",
+             x = as.double(U),
+             n = as.integer(n),
+             adstat = as.double(numeric(1)),
+             pvalue = as.double(numeric(1)),
+             PACKAGE = 'ECTools'
   )
   STATISTIC <- z$adstat
   names(STATISTIC) <- "An"
@@ -102,7 +102,7 @@ pAD <- function(q, n=Inf, lower.tail=TRUE, fast=TRUE) {
   nok <- sum(ok)
   if(nok > 0) {
     if(is.finite(n)) {
-      z <- .Call("ECTools_ADprobN",
+      z <- .C("ADprobN",
               a       = as.double(q[ok]),
               na      = as.integer(nok),
               nsample = as.integer(n),
@@ -111,7 +111,7 @@ pAD <- function(q, n=Inf, lower.tail=TRUE, fast=TRUE) {
       p[ok] <- z$prob
     } else if(fast) {
       ## fast version adinf()
-      z <- .Call("ECTools_ADprobApproxInf",
+      z <- .C("ADprobApproxInf",
               a    = as.double(q[ok]),
               na   = as.integer(nok),
               prob = as.double(numeric(nok)),
@@ -119,7 +119,7 @@ pAD <- function(q, n=Inf, lower.tail=TRUE, fast=TRUE) {
       p[ok] <- z$prob
     } else {
       ## slow, accurate version ADinf()
-      z <- .Call("ECTools_ADprobExactInf",
+      z <- .C("ADprobExactInf",
               a    = as.double(q[ok]),
               na   = as.integer(nok),
               prob = as.double(numeric(nok)),
