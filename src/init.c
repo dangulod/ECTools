@@ -3,10 +3,10 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-void ADprobApproxInf(SEXP, SEXP, SEXP);
-void ADprobExactInf(SEXP, SEXP, SEXP);
-void ADprobN(SEXP, SEXP, SEXP, SEXP);
-void ADtestR(SEXP, SEXP, SEXP, SEXP);
+void ADprobExactInf(double *, int *, double *);
+void ADprobN(double *, int *, int *, double *);
+void ADprobApproxInf(double *, int *, double *);
+void ADtestR(double *, int *, double *, double *);
 
 static const R_CallMethodDef CallEntries[] = {
   {"ADprobApproxInf",      (DL_FUNC) &ADprobApproxInf,      3},
