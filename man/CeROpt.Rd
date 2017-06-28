@@ -2,7 +2,7 @@
 % Please edit documentation in R/CeR.R
 \name{CeROpt}
 \alias{CeROpt}
-\title{CeROpt}
+\title{Optimizacion del CeR}
 \usage{
 CeROpt(SM = SM, A = A, B = B, C = C, D = D, var = c(0.95, 1.05))
 }
@@ -10,5 +10,5 @@ CeROpt(SM = SM, A = A, B = B, C = C, D = D, var = c(0.95, 1.05))
 CeROpt
 }
 \description{
-CeROpt
+Optimizacion del CeR
 }

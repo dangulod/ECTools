@@ -347,6 +347,8 @@ showLabels1 <- function(x, y, labels=NULL, id.method="identify",
 
 qqPlot.saddlepoint = function(object, ...) {
 
+  warning("Quantile plot in saddlepoint class is experimental")
+
   x = object@data[order(object@data)]
   n = length(x)
   p = seq(0, 1, length.out = n)

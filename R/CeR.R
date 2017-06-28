@@ -1,9 +1,8 @@
-#' Contribucion de riesgo del CeR
-#'
-#' @param param vector with parameters c(A,B,C,D)
-#' @param x dataframe con los datos
-#'
-#'
+# Contribucion de riesgo del CeR
+#
+# @param param vector with parameters c(A,B,C,D)
+# @param x dataframe con los datos
+#
 RC_OUT = function(param = param, x = x) {
 
   # x dataframe con los datos
@@ -15,11 +14,11 @@ RC_OUT = function(param = param, x = x) {
   D = param[4]
 
   AVPD = sum(x$PD * x$NCLIENT) / (sum(x$NCLIENT))
-  SUMEAD=sum(x$EAD * x$NCLIENT)
-  AVEAD= SUMEAD / sum(x$NCLIENT)
+  SUMEAD = sum(x$EAD * x$NCLIENT)
+  AVEAD = SUMEAD / sum(x$NCLIENT)
   AVCORR = (sum(x$CORR* x$NCLIENT)/sum(x$NCLIENT)) ^ 2
 
-  RC_OUT = x$UL * (A + B * (x$EAD / SUMEAD) * log(x$EAD / AVEAD) + C * log(x$PD/AVPD) + D * x$CORR * x$CORR * log(x$CORR * x$CORR / AVCORR)) - x$PD * x$LGD
+  RC_OUT = x$UL * (A + B * (x$EAD / SUMEAD) * log(x$EAD / AVEAD) + C * log(x$PD / AVPD) + D * x$CORR * x$CORR * log(x$CORR * x$CORR / AVCORR)) - x$PD * x$LGD
 
   # RC_OUT = sum(x$EAD * RC_OUT) / sum(x$EAD)
 
@@ -27,9 +26,7 @@ RC_OUT = function(param = param, x = x) {
 }
 
 
-#' Residuos
-#'
-#'
+# Residuos
 RES = function(param = param, x = x) {
 
   # x dataframe con los datos
@@ -49,15 +46,13 @@ RES = function(param = param, x = x) {
 # D
 # var vector (with the upper and the lower boundaries)
 
-#' CeROpt
+#' Optimizacion del CeR
 #'
 #' @return CeROpt
 #'
 CeROpt = function(SM = SM, A = A, B = B, C = C, D = D, var = c(0.95, 1.05)) {
 
-  if(!is.data.frame(SM)) {
-    stop("SM is not a dataframe")
-  }
+  if(!is.data.frame(SM)) stop("SM is not a dataframe")
 
   NlcOptim = getFromNamespace("NlcOptim", "NlcOptim")
 
