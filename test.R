@@ -4,8 +4,13 @@ x = read.csv("/Users/n87557/Documents/Metodologia de capital/skewt/vectortest.cs
 
 # fit skewt ---------------------------------------------------------------------
 
+stx = x %>% apply(2, fit_skewt)
+
 st = fit_skewt(x$serie1, n_days = 1)
-st
+
+stx %>% lapply(get_param)
+stx %>% lapply(ks_test)
+
 plot(x = st)
 summary(st)
 qst(0.9995, dp = get_param(st))

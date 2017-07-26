@@ -76,7 +76,7 @@ lambda.box = function(x = x, interval = c(-20,20), tol = 0.00001) {
 #' @return Compute the box-cox transformation based of a vector. Plot and ks.test argument can be set to TRUE in order to asses the normality of the new vector
 #' @export
 #'
-boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F) {
+boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F, ...) {
 
   if (is.data.frame(x)) {stop("x must be a vector")}
 
@@ -118,12 +118,12 @@ boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F) {
     kstest$Dtd = ks.test(x,
                          "pnorm",
                          mean = mean(x, na.rm = T),
-                         sd = sd(x, na.rm = T))
+                         sd = sd(x, na.rm = T), ...)
 
     kstest$transformed = ks.test(boxcox$x.box,
                                  "pnorm",
                                  mean = mean(boxcox$x.box, na.rm = T),
-                                 sd = sd(boxcox$x.box, na.rm = T))
+                                 sd = sd(boxcox$x.box, na.rm = T), ...)
 
     nombre = c("statistic", "p-value")
     Dtd = c(kstest$Dtd$statistic %>% as.numeric,
@@ -155,7 +155,7 @@ boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F) {
 DtD = function(x) {
 
   if (is.data.frame(x)) {
-    DtD = lapply(FDO, function(x) if(is.numeric(x)) {-abs(qnorm(x))} else {x})
+    DtD = lapply(x, function(x) if(is.numeric(x)) {-abs(qnorm(x))} else {x})
     DtD = bind_cols(DtD)
   } else {DtD = -abs(qnorm(x))
   }

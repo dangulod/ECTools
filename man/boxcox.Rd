@@ -4,7 +4,7 @@
 \alias{boxcox}
 \title{boxcox transformation and evaluation}
 \usage{
-boxcox(x = x, lambda = NULL, plot = F, ks.test = F)
+boxcox(x = x, lambda = NULL, plot = F, ks.test = F, ...)
 }
 \arguments{
 \item{x}{vector}
