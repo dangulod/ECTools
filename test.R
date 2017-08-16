@@ -1,14 +1,16 @@
 library(ECTools)
+library(purrr)
 
 x = read.csv("/Users/n87557/Documents/Metodologia de capital/skewt/vectortest.csv")
 
 # fit skewt ---------------------------------------------------------------------
 
+stx = x %>% map(fit_skewt)
 stx = x %>% apply(2, fit_skewt)
 
 st = fit_skewt(x$serie1, n_days = 1)
 
-stx %>% lapply(get_param)
+c = stx %>% lapply(get_param)
 stx %>% lapply(ks_test)
 
 plot(x = st)

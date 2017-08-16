@@ -235,7 +235,7 @@ cutcor = function(data = data, FG = FG) {
 
   if (!is.character(FG)) stop("ref should be a character")
 
-  x = lapply(DATA, function(x) x)
+  x = lapply(data, function(x) x)
 
   y = x[[FG]]
 
