@@ -14,8 +14,6 @@
 flresi = function(y = y, x.var = x.var, scale = T) {
 
   if(!is.logical(scale)) stop("scale must be logical")
-  if(!is.character(x.var)) stop("x.var must be a character")
-  if(!is.character(x.var)) stop("x.var must be a character")
 
   if (!is.data.frame(y)) {
 

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // mat
 NumericMatrix mat(NumericVector FG, NumericVector FL, CharacterVector RU, CharacterVector col);
-RcppExport SEXP ECTools_mat(SEXP FGSEXP, SEXP FLSEXP, SEXP RUSEXP, SEXP colSEXP) {
+RcppExport SEXP _ECTools_mat(SEXP FGSEXP, SEXP FLSEXP, SEXP RUSEXP, SEXP colSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,7 +21,7 @@ END_RCPP
 }
 // fgyfl
 List fgyfl(NumericVector x, double lim);
-RcppExport SEXP ECTools_fgyfl(SEXP xSEXP, SEXP limSEXP) {
+RcppExport SEXP _ECTools_fgyfl(SEXP xSEXP, SEXP limSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -33,7 +33,7 @@ END_RCPP
 }
 // k1
 double k1(std::vector<double> x);
-RcppExport SEXP ECTools_k1(SEXP xSEXP) {
+RcppExport SEXP _ECTools_k1(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -44,7 +44,7 @@ END_RCPP
 }
 // k2
 double k2(std::vector<double> x);
-RcppExport SEXP ECTools_k2(SEXP xSEXP) {
+RcppExport SEXP _ECTools_k2(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,7 +55,7 @@ END_RCPP
 }
 // k3
 double k3(std::vector<double> x);
-RcppExport SEXP ECTools_k3(SEXP xSEXP) {
+RcppExport SEXP _ECTools_k3(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -66,7 +66,7 @@ END_RCPP
 }
 // k4
 double k4(std::vector<double> x);
-RcppExport SEXP ECTools_k4(SEXP xSEXP) {
+RcppExport SEXP _ECTools_k4(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -77,7 +77,7 @@ END_RCPP
 }
 // k5
 double k5(std::vector<double> x);
-RcppExport SEXP ECTools_k5(SEXP xSEXP) {
+RcppExport SEXP _ECTools_k5(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -88,7 +88,7 @@ END_RCPP
 }
 // k6
 double k6(std::vector<double> x);
-RcppExport SEXP ECTools_k6(SEXP xSEXP) {
+RcppExport SEXP _ECTools_k6(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -99,7 +99,7 @@ END_RCPP
 }
 // st_cumulants
 std::vector<double> st_cumulants(double location, double escala, double shape, double df);
-RcppExport SEXP ECTools_st_cumulants(SEXP locationSEXP, SEXP escalaSEXP, SEXP shapeSEXP, SEXP dfSEXP) {
+RcppExport SEXP _ECTools_st_cumulants(SEXP locationSEXP, SEXP escalaSEXP, SEXP shapeSEXP, SEXP dfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -113,7 +113,7 @@ END_RCPP
 }
 // minfunc
 double minfunc(std::vector<double> par, std::vector<double> x, int n_days);
-RcppExport SEXP ECTools_minfunc(SEXP parSEXP, SEXP xSEXP, SEXP n_daysSEXP) {
+RcppExport SEXP _ECTools_minfunc(SEXP parSEXP, SEXP xSEXP, SEXP n_daysSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -126,7 +126,7 @@ END_RCPP
 }
 // k4m
 double k4m(std::vector<double> k, double s);
-RcppExport SEXP ECTools_k4m(SEXP kSEXP, SEXP sSEXP) {
+RcppExport SEXP _ECTools_k4m(SEXP kSEXP, SEXP sSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -138,7 +138,7 @@ END_RCPP
 }
 // k4m_1st
 double k4m_1st(std::vector<double> k, double s);
-RcppExport SEXP ECTools_k4m_1st(SEXP kSEXP, SEXP sSEXP) {
+RcppExport SEXP _ECTools_k4m_1st(SEXP kSEXP, SEXP sSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -150,7 +150,7 @@ END_RCPP
 }
 // k4m_2nd
 double k4m_2nd(std::vector<double> k, double s);
-RcppExport SEXP ECTools_k4m_2nd(SEXP kSEXP, SEXP sSEXP) {
+RcppExport SEXP _ECTools_k4m_2nd(SEXP kSEXP, SEXP sSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;

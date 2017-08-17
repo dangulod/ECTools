@@ -2,11 +2,11 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 mat <- function(FG, FL, RU, col) {
-    .Call('ECTools_mat', PACKAGE = 'ECTools', FG, FL, RU, col)
+    .Call('_ECTools_mat', PACKAGE = 'ECTools', FG, FL, RU, col)
 }
 
 fgyfl <- function(x, lim) {
-    .Call('ECTools_fgyfl', PACKAGE = 'ECTools', x, lim)
+    .Call('_ECTools_fgyfl', PACKAGE = 'ECTools', x, lim)
 }
 
 #' The first raw moment
@@ -21,7 +21,7 @@ fgyfl <- function(x, lim) {
 #' @export
 #'
 k1 <- function(x) {
-    .Call('ECTools_k1', PACKAGE = 'ECTools', x)
+    .Call('_ECTools_k1', PACKAGE = 'ECTools', x)
 }
 
 #' The second central moment
@@ -36,7 +36,7 @@ k1 <- function(x) {
 #' @export
 #'
 k2 <- function(x) {
-    .Call('ECTools_k2', PACKAGE = 'ECTools', x)
+    .Call('_ECTools_k2', PACKAGE = 'ECTools', x)
 }
 
 #' The third central moment
@@ -56,7 +56,7 @@ k2 <- function(x) {
 #' @export
 #'
 k3 <- function(x) {
-    .Call('ECTools_k3', PACKAGE = 'ECTools', x)
+    .Call('_ECTools_k3', PACKAGE = 'ECTools', x)
 }
 
 #' The fourth central moment
@@ -89,7 +89,7 @@ k3 <- function(x) {
 #' @export
 #'
 k4 <- function(x) {
-    .Call('ECTools_k4', PACKAGE = 'ECTools', x)
+    .Call('_ECTools_k4', PACKAGE = 'ECTools', x)
 }
 
 #' The fifth central moment
@@ -112,7 +112,7 @@ k4 <- function(x) {
 #' @export
 #'
 k5 <- function(x) {
-    .Call('ECTools_k5', PACKAGE = 'ECTools', x)
+    .Call('_ECTools_k5', PACKAGE = 'ECTools', x)
 }
 
 #' The sixth central moment
@@ -135,27 +135,27 @@ k5 <- function(x) {
 #' @export
 #'
 k6 <- function(x) {
-    .Call('ECTools_k6', PACKAGE = 'ECTools', x)
+    .Call('_ECTools_k6', PACKAGE = 'ECTools', x)
 }
 
 #' @export
 st_cumulants <- function(location, escala, shape, df) {
-    .Call('ECTools_st_cumulants', PACKAGE = 'ECTools', location, escala, shape, df)
+    .Call('_ECTools_st_cumulants', PACKAGE = 'ECTools', location, escala, shape, df)
 }
 
 minfunc <- function(par, x, n_days) {
-    .Call('ECTools_minfunc', PACKAGE = 'ECTools', par, x, n_days)
+    .Call('_ECTools_minfunc', PACKAGE = 'ECTools', par, x, n_days)
 }
 
 k4m <- function(k, s) {
-    .Call('ECTools_k4m', PACKAGE = 'ECTools', k, s)
+    .Call('_ECTools_k4m', PACKAGE = 'ECTools', k, s)
 }
 
 k4m_1st <- function(k, s) {
-    .Call('ECTools_k4m_1st', PACKAGE = 'ECTools', k, s)
+    .Call('_ECTools_k4m_1st', PACKAGE = 'ECTools', k, s)
 }
 
 k4m_2nd <- function(k, s) {
-    .Call('ECTools_k4m_2nd', PACKAGE = 'ECTools', k, s)
+    .Call('_ECTools_k4m_2nd', PACKAGE = 'ECTools', k, s)
 }
 
