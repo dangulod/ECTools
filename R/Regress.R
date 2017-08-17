@@ -13,13 +13,13 @@
 #'
 flresi = function(y = y, x.var = x.var, scale = T) {
 
+  if(!is.logical(scale)) stop("scale must be logical")
+  if(!is.character(x.var)) stop("x.var must be a character")
+  if(!is.character(x.var)) stop("x.var must be a character")
+
   if (!is.data.frame(y)) {
 
-    flresi = flresid(Y = y, X = x.var)
-
-    if (scale) {
-      flresi = flresi %>% scale %>% as.numeric
-      }
+    flresi = flresid(Y = y, X = x.var, scale = scale)
 
   } else {
 
@@ -27,11 +27,10 @@ flresi = function(y = y, x.var = x.var, scale = T) {
 
     y = y %>%
       lapply(function(z)
-        if(!is.numeric(z)) {z
-        } else if (scale){
-          flresid(Y = z, X = FG) %>% scale %>% as.numeric
+        if(!is.numeric(z)) {
+          z
         } else {
-          flresid(Y = z, X = FG)})
+          flresid(Y = z, X = FG, scale = scale)})
 
     y[[x.var]] = FG
 
@@ -41,10 +40,12 @@ flresi = function(y = y, x.var = x.var, scale = T) {
   return(flresi)
 }
 
-flresid = function(Y = Y, X = X) {
+flresid = function(Y = Y, X = X, scale = scale) {
 
   lm = lm(Y ~ X )
   flresid = Y - (lm$coefficients[1] + lm$coefficients[2] * X)
+  if (scale) flresid = as.numeric(scale(flresid))
+
   return(flresid)
 }
 
