@@ -265,7 +265,7 @@ cutcor = function(data = data, FG = FG) {
     }
     if (is.na(xx[1])) {
 
-      s = which(diff(which(is.na(xx))) != 1) + 1
+      s = min(which(!is.na(xx)))
 
     } else {
 
@@ -277,7 +277,7 @@ cutcor = function(data = data, FG = FG) {
 
     if (i > 0) {
 
-      xx[s:(s + i)] = NA
+      xx[s:(s + i - 1)] = NA
 
     }
 
