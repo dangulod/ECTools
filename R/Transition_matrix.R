@@ -2,9 +2,9 @@
 
 #' @rdname TranMat
 #'
-#' @name Cretit migration
+#' @name Credit migration
 #'
-#' @title Functions to apply to the credit migration or a transition matrix
+#' @title Functions to apply to the credit migration or transition matrix
 #'
 #' @usage
 #'
