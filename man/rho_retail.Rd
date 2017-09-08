@@ -15,10 +15,20 @@ rho_retail(segment, PD)
 the coefficient of correlation for retail exposures defined
 }
 \description{
-Accoring to the Capital Requirements Reglament (575/2013), Article 154. The coefficient
+According to the Capital Requirements Reglament (575/2013), Article 154. The coefficient
+of correlation for corporates, institutions and central governments and central banks shall
+be calculated according to the following formula:
+
+R = 0.12 * ((1 - exp(-50 * PD)) / (1 - exp(-50))) + 0.24 * (1 - ((1 - exp(-50 * PD)) / (1 - exp(-50))))
+
+For all exposures to large financial sector entities, the co-efficient of correlation of
+is multiplied by 1.25. For all exposures to unregulated financial entities, the coefficients of
+correlation are multiplied by 1.25.
+
+According to the Capital Requirements Reglament (575/2013), Article 154. The coefficient
 of correlation is defined as:
 
-(1 - exp(-35 * PD)) / (1 - exp(-35))) + 0.16 * (1 - ((1 - exp(-35 * PD)) / (1 - exp(-35))))
+R = 0.03 * ((1 - exp(-35 * PD)) / (1 - exp(-35))) + 0.16 * (1 - ((1 - exp(-35 * PD)) / (1 - exp(-35))))
 
 However,
 
@@ -26,7 +36,7 @@ For retail exposures secured by immovable property collateral a coefficient of c
 0,15 shall replace the figure produced by the correlation formula above.
 
 For qualifying revolving retail exposures, a coefficient of
-correlation R of 0,04 shall replace the figure produced by the correlation formula above.
+correlation R of 0.04 shall replace the figure produced by the correlation formula above.
 }
 \examples{
 rho_retail("mortage", 0.14)
@@ -35,6 +45,7 @@ rho_retail("loans", 0.14)
 
 }
 \references{
+CRR 575/2013/EU, Article 153 "Risk weighted exposure amounts for exposures to corporates, institutions and central governments and central banks"
 CRR 575/2013/EU, Article 154 "Risk weighted exposure amounts for retail exposures"
 
 An Explanatory Note on the Basel II IRB Risk Weight Functions (page 14)
