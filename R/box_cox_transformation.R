@@ -88,7 +88,7 @@ boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F, ...) {
   # x = abs(qnorm(x))
 
   boxcox$x.box = -box.cox(x,
-                           lambda = lambda)
+                          lambda = lambda)
 
   if (plot == T) {
 
@@ -154,12 +154,14 @@ boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F, ...) {
 #'
 DtD = function(x) {
 
+  dtd = function(x) if(is.numeric(x)) abs(qnorm(x)) else x
+
   if (is.data.frame(x)) {
-    DtD = lapply(x, function(x) if(is.numeric(x)) {-abs(qnorm(x))} else {x})
-    DtD = bind_cols(DtD)
-  } else {DtD = -abs(qnorm(x))
+    DtD = lapply(x, dtd)
+    return(bind_cols(DtD))
+  } else {
+    return(dtd(x))
   }
-  return(DtD)
 }
 
 #' scaledf
