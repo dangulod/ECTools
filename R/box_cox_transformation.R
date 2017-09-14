@@ -72,8 +72,12 @@ lambda.box = function(x = x, interval = c(-20,20), tol = 0.00001) {
 #' @param lambda (Optional) lambda, if NULL, lambda is optimized
 #' @param plot (Optional) Logical, plot qqplots
 #' @param ks.test (Optional) Logical, kolmogorov-smirnov test
+#' @param ... additional arguments fo lambda.box
 #'
-#' @return Compute the box-cox transformation based of a vector. Plot and ks.test argument can be set to TRUE in order to asses the normality of the new vector
+#' @return Compute the box-cox transformation based of a vector. Plot and ks.test argument can be set to TRUE to asses the normality of the new vector
+#'
+#' @seealso lambda.box
+#'
 #' @export
 #'
 boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F, ...) {
@@ -81,7 +85,7 @@ boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F, ...) {
   if (is.data.frame(x)) {stop("x must be a vector")}
 
   if (missing("lambda")) {
-    lambda = lambda.box(x)}
+    lambda = lambda.box(x, ...)}
 
   boxcox = list()
 
@@ -92,9 +96,6 @@ boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F, ...) {
 
   if (plot == T) {
 
-    if ("car" %in% rownames(installed.packages())) {
-      qqPlot = getFromNamespace("qqPlot", "car")
-
       par(mfrow = c(1, 2))
 
       qqPlot(x,
@@ -104,11 +105,7 @@ boxcox = function(x = x, lambda = NULL, plot = F, ks.test = F, ...) {
       qqPlot(boxcox$x.box,
              dist="norm",
              pch = 20, main = paste("Transformed l = ", round(lambda, digits = 2)), ylab = "")
-    } else {
 
-      message("Warning: you must install 'car' package if 'plot = T'")
-
-    }
   }
 
   if (ks.test == T) {

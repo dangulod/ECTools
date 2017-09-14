@@ -14,10 +14,15 @@ boxcox(x = x, lambda = NULL, plot = F, ks.test = F, ...)
 \item{plot}{(Optional) Logical, plot qqplots}
 
 \item{ks.test}{(Optional) Logical, kolmogorov-smirnov test}
+
+\item{...}{additional arguments fo lambda.box}
 }
 \value{
-Compute the box-cox transformation based of a vector. Plot and ks.test argument can be set to TRUE in order to asses the normality of the new vector
+Compute the box-cox transformation based of a vector. Plot and ks.test argument can be set to TRUE to asses the normality of the new vector
 }
 \description{
 boxcox transformation and evaluation
+}
+\seealso{
+lambda.box
 }
