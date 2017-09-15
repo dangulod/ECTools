@@ -52,13 +52,14 @@ pairwise.diss <- function(series, dissfun, ...) {
 diss.COR = function(x, y, beta = NULL) {
   .ts.sanity.check(x, y)
   correl <- cor(x,y, use = "pairwise.complete.obs")
+  if (is.na(correl) | correl == -1) correl = -0.99
   if (is.null(beta)) {
-    sqrt(2*(1- correl))
+    return(sqrt(2*(1- correl)))
   } else {
     if (beta<0) {
       stop("beta must be greater than 0")
     }
-    sqrt(((1-correl)/(1+correl ))**beta )
+    return(sqrt(((1-correl)/(1+correl ))**beta ))
   }
 }
 
