@@ -203,7 +203,7 @@ summary.skewt <- function(object, ...) {
   cat(paste("  Shape                 = ", format(object@shape, digits = 4, scientific = F), "\n"))
   cat(paste("  df                    = ", format(object@df, digits = 4, scientific = F), "\n\n"))
   cat("Quantiles:\n\n")
-  print(st@quantiles, digits = 4, row.names = F, scipen=999)
+  print(object@quantiles, digits = 4, row.names = F, scipen=999)
 
 }
 

@@ -5,7 +5,7 @@
 \title{Global & Local factor optimization}
 \usage{
 cor_optim(map = map, hist = hist, CD = CD, lim = 1, maxiter = 10000,
-  parallel = F)
+  parallel = F, ...)
 }
 \arguments{
 \item{map}{Dataframe with the correspondence}

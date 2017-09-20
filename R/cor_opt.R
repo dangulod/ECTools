@@ -1,3 +1,20 @@
+# Class definition -------------------------------------------------------------------
+
+setClass(Class = "sensitivities",
+         slots = c(
+           call = "language",
+           hist = "matrix",
+           map = "data.frame",
+           lim = "numeric",
+           maxiter = "numeric",
+           sensitivities = "data.frame",
+           error = "numeric",
+           iterations = "numeric",
+           CD = "matrix"),
+         package = "ECTools")
+
+# Optimization function ---------------------------------------------------
+
 #' Global & Local factor optimization
 #'
 #' @param map Dataframe with the correspondence
@@ -14,7 +31,7 @@
 #'
 #' @export
 #'
-cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, parallel = F) {
+cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, parallel = F, ...) {
 
   # COMPROBACIONES INICIALES
     # esta instalada la libreria
@@ -30,6 +47,16 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
   if (!is.matrix(CD)) stop("'CD' must be a matrix")
   if (!isSymmetric.matrix(CD)) stop ("'CD' is not a valid correlation matrix")
 
+  call = match.call()
+
+  object = new("sensitivities",
+               call = call,
+               hist = hist,
+               map = map,
+               CD = CD,
+               maxiter = maxiter,
+               lim = lim)
+
   n = colnames(CD)
 
   R_2 = function(FG = FG, FL = FL, RU = map$cor_cd, hist = hist, CD = CD) {
@@ -38,7 +65,7 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
     mat = mat %*% CD %*% t(mat)
     diag(mat) = 1
 
-    sum((hist - mat) ^ 2)
+    return(sum((hist - mat) ^ 2))
   }
 
   fitness = function(x, lim = lim) {
@@ -60,19 +87,96 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
           lim = lim,
           maxiter = maxiter,
           optim = T,
-          parallel = parallel)
+          parallel = parallel,
+          ...)
 
   x = GA@solution[1,]
 
   x = fgyfl(x, lim = lim)
 
-  cor_optim = data.frame(
+  object@error = GA@fitnessValue
+  object@iterations = GA@iter
+
+  object@sensitivities = data.frame(
     RU = map$cor_his,
     FG = x$FG,
     FL = x$FL
   ) %>%
     unique()
 
-  return(cor_optim)
+  return(object)
 
 }
+
+# Object method -----------------------------------------------------------
+
+show.sensitivities = function(object) {
+
+  cat("An object of class \"sensitities\"\n")
+  cat("\nCall:\n", deparse(object@call), "\n\n",sep="")
+  cat("Available slots:\n")
+  print(slotNames(object))
+
+}
+
+#' Get R squared
+#'
+#' @export
+r_squared = function(object, ...) {
+
+  UseMethod("r_squared", object)
+
+}
+
+
+r_squared.sensitivities = function(object) {
+
+  r2 = object@sensitivities
+  r2$r2 = r2$FG ^ 2 + r2$FL ^ 2
+
+  return(r2)
+
+}
+
+summary.sensitivities <- function(object, ...) {
+
+  cat("+-----------------------------------+\n")
+  cat("|Global & Local factor optimization |\n")
+  cat("+-----------------------------------+\n\n")
+  cat("Settings: \n")
+  cat(paste("  lim                   = ", object@lim, "\n"))
+  cat(paste("  maxiter               = ", object@maxiter, "\n\n"))
+  cat("Estimation results:\n")
+  cat(paste("  error                 = ", format(object@error, digits = 4, scientific = F), "\n"))
+  cat(paste("  iterations            = ", object@iterations, "\n\n"))
+  cat("Sensitivities:\n\n")
+  print(r_squared(object), digits = 4, row.names = F, scipen=999)
+
+}
+
+#' Get Global & local factor sensitivities
+#'
+#' @export
+get_sensitivities = function(object, ...) {
+
+  UseMethod("get_sensitivities", object)
+
+}
+
+get_sensitivities.sensitivities = function(object) {
+
+  return(object@sensitivities)
+
+}
+
+# Set methods -------------------------------------------------------------
+
+setMethod("show", "sensitivities", show.sensitivities)
+setMethod("print", "sensitivities", function(x, ...) str(x))
+setMethod("r_squared", "sensitivities", r_squared.sensitivities)
+setMethod("get_sensitivities", "sensitivities", get_sensitivities.sensitivities)
+
+#' @export
+setMethod("summary", signature(object = "sensitivities"), summary.sensitivities)
+
+
