@@ -28,6 +28,7 @@ setClass(Class = "sensitivities",
 #' taken from detectCores. Finally, the functionality of parallelization depends on
 #' system OS: on Windows only 'snow' type functionality is available, while on Unix/Linux/Mac
 #' OSX both 'snow' and 'multicore' (default) functionalities are available.
+#' @param ... Arguments to be passed to ga function
 #'
 #' @export
 #'
@@ -169,12 +170,34 @@ get_sensitivities.sensitivities = function(object) {
 
 }
 
+#' Fitted matrix
+#'
+#' @export
+fitted_cor = function(object, ...) {
+
+  UseMethod("fit_matrix", object)
+
+}
+
+fitted_cor.sensitivities = function(object) {
+
+  n = colnames(object@CD)
+
+  mat = mat(FG = object@sensitivities$FG, FL = object@sensitivities$FL, RU = object@map$cor_cd, col = n)
+  mat = mat %*% object@CD %*% t(mat)
+  diag(mat) = 1
+
+  return(mat)
+}
+
+
 # Set methods -------------------------------------------------------------
 
 setMethod("show", "sensitivities", show.sensitivities)
 setMethod("print", "sensitivities", function(x, ...) str(x))
 setMethod("r_squared", "sensitivities", r_squared.sensitivities)
 setMethod("get_sensitivities", "sensitivities", get_sensitivities.sensitivities)
+setMethod("fitted_cor", "sensitivities", fitted_cor.sensitivities)
 
 #' @export
 setMethod("summary", signature(object = "sensitivities"), summary.sensitivities)
