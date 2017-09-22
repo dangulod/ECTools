@@ -67,6 +67,7 @@ llcor = function(x = x, y = y, max.lag = 6, allow.negative = T) {
 #' @param lag.max (Optional) maximum lag
 #' @param allow.negative (Optional) logical, if negative lags are allowed, by default TRUE
 #' @param max (Optional) logical, Should maximum be returned, in other case minimum is returned
+#' @param abs (Optional) logical, Should be the maximum in absolute value, by defaukt TRUE
 #'
 #' @return Return the lag with the maximum/minimum correlations bewteen two time series
 #'
@@ -74,7 +75,7 @@ llcor = function(x = x, y = y, max.lag = 6, allow.negative = T) {
 #'
 #' @export
 #'
-maxccf = function(x = x, y = y, lag.max = 6, allow.negative = T, max = T) {
+maxccf = function(x = x, y = y, lag.max = 6, allow.negative = T, max = T, abs = T) {
 
   ccf = llcor(x,
               y,
@@ -82,10 +83,12 @@ maxccf = function(x = x, y = y, lag.max = 6, allow.negative = T, max = T) {
               allow.negative = allow.negative) %>%
     as.data.frame()
 
+
   # ccf = ccf[order(abs(ccf$V2), decreasing = T),]
-  ccf = ccf[order(ccf$V2,
-                  decreasing = max),]
-  maxcorlag = ccf[1,1]
+  # ccf = ccf[order(ccf$V2,
+  #                 decreasing = max),]
+  maxcorlag = if(abs) ccf[which.max(abs(ccf$V2)),"V1"] else ccf[which.max(ccf$V2),"V1"]
+
   return(maxcorlag)
 }
 
@@ -102,7 +105,7 @@ maxccf = function(x = x, y = y, lag.max = 6, allow.negative = T, max = T) {
 #'
 #' @export
 #'
-maxccfdf = function(x = x, lag.max = 6, allow.negative = T, max = T) {
+maxccfdf = function(x = x, lag.max = 6, allow.negative = T, max = T, abs = T) {
 
   x = apply(x, 2, function (x) as.numeric(x)) %>% as.data.frame()
 
@@ -126,7 +129,8 @@ maxccfdf = function(x = x, lag.max = 6, allow.negative = T, max = T) {
                                         y2,
                                         lag.max = lag.max,
                                         allow.negative = allow.negative,
-                                        max = max),
+                                        max = max,
+                                        abs = abs),
                         NA_real_)
     }
   }
@@ -148,7 +152,7 @@ maxccfdf = function(x = x, lag.max = 6, allow.negative = T, max = T) {
 #' @return Return a dataframe with the variables lagged or delayed with the max correlation to reference variable
 #' @export
 #'
-corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, allow.negative = T, max = T) {
+corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, allow.negative = T, max = T, abs = T) {
 
   if(!is.data.frame(DATA)) {
     stop("DATA must be a data.frame")
@@ -170,8 +174,9 @@ corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, 
       j = maxccf(rf,
                  DATA %>% .[[i]],
                  lag.max = lag.max,
-                 allow.negative = T,
-                 max = max)
+                 allow.negative = allow.negative,
+                 max = max,
+                 abs = abs)
       x[[i]] =  DATA %>% .[[i]] %>% lg(j)
 
     } else {
