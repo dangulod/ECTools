@@ -8,11 +8,11 @@
 lg = function(x = x , lag = lag) {
 
   if (lag < 0) {
-    lg = x %>% rev %>% lag(abs(lag)) %>% rev
+    lg = rev(lag(rev(x), abs(lag)))
   } else if (lag == 0) {
     lg = x
   } else if (lag > 0) {
-    lg = x %>% lag(lag)
+    lg = lag(x, lag)
   }
 
   return(lg)
@@ -51,7 +51,7 @@ llcor = function(x = x, y = y, max.lag = 6, allow.negative = T) {
                    y,
                    use = "pairwise.complete.obs")
     } else {
-      lg1 = y %>% lg(j)
+      lg1 = lg(y, j)
       z[i,2] = cor(x,
                    lg1,
                    use = "pairwise.complete.obs")
@@ -66,7 +66,6 @@ llcor = function(x = x, y = y, max.lag = 6, allow.negative = T) {
 #' @param y vector
 #' @param lag.max (Optional) maximum lag
 #' @param allow.negative (Optional) logical, if negative lags are allowed, by default TRUE
-#' @param max (Optional) logical, Should maximum be returned, in other case minimum is returned
 #' @param abs (Optional) logical, Should be the maximum in absolute value, by defaukt TRUE
 #'
 #' @return Return the lag with the maximum/minimum correlations bewteen two time series
@@ -75,13 +74,12 @@ llcor = function(x = x, y = y, max.lag = 6, allow.negative = T) {
 #'
 #' @export
 #'
-maxccf = function(x = x, y = y, lag.max = 6, allow.negative = T, max = T, abs = T) {
+maxccf = function(x = x, y = y, lag.max = 6, allow.negative = T, abs = T) {
 
-  ccf = llcor(x,
-              y,
-              max.lag = lag.max,
-              allow.negative = allow.negative) %>%
-    as.data.frame()
+  ccf = as.data.frame(llcor(x,
+                            y,
+                            max.lag = lag.max,
+                            allow.negative = allow.negative))
 
 
   # ccf = ccf[order(abs(ccf$V2), decreasing = T),]
@@ -99,43 +97,41 @@ maxccf = function(x = x, y = y, lag.max = 6, allow.negative = T, max = T, abs = 
 #' @param x data.frame with data
 #' @param lag.max maximum lag
 #' @param allow.negative (Optional) logical, if negative lags are allowed, by default TRUE
-#' @param max (Optional) logical, Should maximum be returned, in other case minimum is returned
 #'
 #' @return matrix with maxccf
 #'
 #' @export
 #'
-maxccfdf = function(x = x, lag.max = 6, allow.negative = T, max = T, abs = T) {
+maxccfdf = function(x = x, lag.max = 6, allow.negative = T, abs = T) {
 
-  x = apply(x, 2, function (x) as.numeric(x)) %>% as.data.frame()
+  x = as.data.frame(apply(x, 2, function (x) as.numeric(x)))
 
   if (is.data.frame(x))
-    x <- as.matrix(x)
+    x = as.matrix(x)
 
-  ncy <- ncx <- ncol(x)
+  ncy = ncx = ncol(x)
   if (ncx == 0)
     stop("'x' is empty")
-  r <- matrix(0,
+  r = matrix(0,
               nrow = ncx,
               ncol = ncy)
   for (i in seq_len(ncx)) {
     for (j in seq_len(ncx)) {
-      x2 <- x[, i]
-      y2 <- x[, j]
-      ok <- complete.cases(x2, y2)
-      # x2 <- x2[ok]
-      # y2 <- y2[ok]
-      r[i, j] <- ifelse(any(ok), maxccf(x2,
+      x2 = x[, i]
+      y2 = x[, j]
+      ok = complete.cases(x2, y2)
+      # x2 = x2[ok]
+      # y2 = y2[ok]
+      r[i, j] = ifelse(any(ok), maxccf(x2,
                                         y2,
                                         lag.max = lag.max,
                                         allow.negative = allow.negative,
-                                        max = max,
                                         abs = abs),
                         NA_real_)
     }
   }
-  rownames(r) <- colnames(x)
-  colnames(r) <- colnames(x)
+  rownames(r) = colnames(x)
+  colnames(r) = colnames(x)
   return(r)
 
 }
@@ -147,12 +143,11 @@ maxccfdf = function(x = x, lag.max = 6, allow.negative = T, max = T, abs = T) {
 #' @param variables variables to change
 #' @param lag.max maximum number of lags to asses
 #' @param allow.negative (Optional) logical, if negative lags are allowed, by default TRUE
-#' @param max (Optional) logical, Should maximum be returned, in other case minimum is returned
 #'
 #' @return Return a dataframe with the variables lagged or delayed with the max correlation to reference variable
 #' @export
 #'
-corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, allow.negative = T, max = T, abs = T) {
+corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, allow.negative = T, abs = T) {
 
   if(!is.data.frame(DATA)) {
     stop("DATA must be a data.frame")
@@ -164,7 +159,7 @@ corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, 
 
   variables = variables[variables != ref]
 
-  rf = DATA %>% .[[ref]]
+  rf = DATA[[ref]]
 
   x = list()
 
@@ -172,19 +167,18 @@ corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, 
 
     if(i %in% variables) {
       j = maxccf(rf,
-                 DATA %>% .[[i]],
+                 DATA[[i]],
                  lag.max = lag.max,
                  allow.negative = allow.negative,
-                 max = max,
                  abs = abs)
-      x[[i]] =  DATA %>% .[[i]] %>% lg(j)
+      x[[i]] = lg(DATA[[i]], j)
 
     } else {
-      x[[i]]  = DATA %>% .[[i]]
+      x[[i]] = DATA[[i]]
     }
   }
   x = bind_cols(x)
-  # x = do.call(cbind, x) %>% as.data.frame()
+  # x = as.data.frame(do.call(cbind, x))
   # names(x) = names(DATA)
   return(x)
 }
@@ -198,11 +192,11 @@ corscale = function(DATA = DATA, ref = ref, variables = variables, lag.max = 6, 
 matrix_hclust = function(groups = groups) {
 
   m = matrix(0,
-             nrow = groups %>% length() ,
-             ncol = groups %>% length())
+             nrow = length(groups) ,
+             ncol = length(groups))
 
-  rownames(m) = groups %>% names
-  colnames(m) = groups %>% names
+  rownames(m) = names(groups)
+  colnames(m) = names(groups)
   i =  1; j = 1;
   for (i in seq(nrow(m))) {
     for (j in seq(ncol(m))) {
@@ -252,7 +246,7 @@ cutcor = function(data = data, FG = FG) {
 
     l = length(na.omit(xx))
 
-    if (l < 16) return(xx)# Four year 4 * 4
+    if (l < 16) return(xx)    # Four year 4 * 4
 
     z = data.frame(
       x = xx,
@@ -260,12 +254,12 @@ cutcor = function(data = data, FG = FG) {
     )
 
     i = 0
-    z = z %>% na.omit()
+    z = na.omit(z)
     while (cor(z$x[-1], z$y[-1], use =  "pairwise.complete.obs") < cor(z$x, z$y, use =  "pairwise.complete.obs")) {
 
       z$x[1] = NA
       z$y[1] = NA
-      z = z %>% na.omit()
+      z = na.omit(z)
       i = i + 1
     }
     if (is.na(xx[1])) {
