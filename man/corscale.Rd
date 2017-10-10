@@ -5,7 +5,7 @@
 \title{corscale}
 \usage{
 corscale(DATA = DATA, ref = ref, variables = variables, lag.max = 6,
-  allow.negative = T, max = T)
+  allow.negative = T, abs = T)
 }
 \arguments{
 \item{DATA}{data.frame with the data}
@@ -17,8 +17,6 @@ corscale(DATA = DATA, ref = ref, variables = variables, lag.max = 6,
 \item{lag.max}{maximum number of lags to asses}
 
 \item{allow.negative}{(Optional) logical, if negative lags are allowed, by default TRUE}
-
-\item{max}{(Optional) logical, Should maximum be returned, in other case minimum is returned}
 }
 \value{
 Return a dataframe with the variables lagged or delayed with the max correlation to reference variable

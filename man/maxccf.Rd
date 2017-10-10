@@ -4,7 +4,7 @@
 \alias{maxccf}
 \title{maxccf}
 \usage{
-maxccf(x = x, y = y, lag.max = 6, allow.negative = T, max = T)
+maxccf(x = x, y = y, lag.max = 6, allow.negative = T, abs = T)
 }
 \arguments{
 \item{x}{vector}
@@ -15,7 +15,7 @@ maxccf(x = x, y = y, lag.max = 6, allow.negative = T, max = T)
 
 \item{allow.negative}{(Optional) logical, if negative lags are allowed, by default TRUE}
 
-\item{max}{(Optional) logical, Should maximum be returned, in other case minimum is returned}
+\item{abs}{(Optional) logical, Should be the maximum in absolute value, by defaukt TRUE}
 }
 \value{
 Return the lag with the maximum/minimum correlations bewteen two time series

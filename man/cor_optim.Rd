@@ -24,6 +24,8 @@ could also be used to specify the number of cores to employ; by default, this is
 taken from detectCores. Finally, the functionality of parallelization depends on
 system OS: on Windows only 'snow' type functionality is available, while on Unix/Linux/Mac
 OSX both 'snow' and 'multicore' (default) functionalities are available.}
+
+\item{...}{Arguments to be passed to ga function}
 }
 \description{
 Global & Local factor optimization

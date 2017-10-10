@@ -3,27 +3,33 @@ using namespace Rcpp;
 
 
 // [[Rcpp::export]]
-NumericMatrix mat(NumericVector FG, NumericVector FL, CharacterVector RU, CharacterVector col) {
+NumericMatrix mat(NumericVector FG, NumericMatrix FL, DataFrame RU, CharacterVector col) {
 
-  // CharacterVector col = CharacterVector::create("GLOBAL", "ESP", "POR", "UK", "MEX", "CHI", "BRA", "ARG", "URUG", "POL", "EUR", "USA");
+  // number of columns of the matrix x
   int c = col.length();
 
-  int r = RU.length();
+  // number of rows of the matrix x
+  int r = RU.nrows();
+  int cu = RU.ncol();
+
+  // create the output matrix
   NumericMatrix x(r, c);
 
+  // set the col & row names
   colnames(x) = col;
-  rownames(x) = RU;
+  rownames(x) = (CharacterVector)RU[0];
 
-  x(_,0) = FG;
+  // set the Global Factor
+  x(_, 0) = FG;
 
-  colnames(x) = col;
-  rownames(x) = RU;
+  for (int k = 1; k < cu; k++) {        // Loop through number of columns of RU
 
-  for (int i = 0; i < c; i++) {
-    for(int j = 0; j < r; j++) {
+    CharacterVector ru = RU[k];
 
-      x(j,i) = (RU[j] == col[i]) ? FL[j] : x(j,i);
-
+    for (int i = 0; i < r; i++) {       // Loop through number of columns of  RU
+      for (int j = 1; j < c; j++) {     // Loop through number of elements of col
+        if (ru[i] == col[j]) x(i,j) =  FL(i, k - 1);
+      }
     }
   }
 
@@ -32,44 +38,58 @@ NumericMatrix mat(NumericVector FG, NumericVector FL, CharacterVector RU, Charac
 }
 
 
-// [[Rcpp::export]]
-List fgyfl(NumericVector x, double lim) {
 
+// [[Rcpp::export]]
+NumericMatrix fgyfl(NumericVector x, double lim, CharacterVector n) {
+
+  // length of x vector
   int l = x.length();
-  int l2 = l / 2;
+
+  // number of factors
+  int ln = n.length() + 1;
+
+  // number of elements of every factor
+  int l2 = l / ln;
+
+  CharacterVector names(ln);
+  names[0] = "FG";
+
+  for (int i = 1; i < ln; i++) {
+    names[i] = n[i -1];
+  }
+
+  //
+  NumericMatrix fgyfl(l2, ln);
+
+  colnames(fgyfl) = names;
+
+  int r = 0;
+  int c = 0;
+
+  if (l2 * ln != l)
+    throw std::range_error("'x' does not fit on 'n' length");
+
+  for (int i = 0; i < l; i++) {
+    c = i % l;
+    r = i - (c * l2);
+    fgyfl(r,c) = x[i];
+  }
+
   double su = 0;
 
-  NumericVector fg(l2);
-  NumericVector fl(l2);
+  for (int i = 0; i < l2; i++) {            // loop through the matrix rows
+    su = 0;
+    for (int j = 0; j < ln; j++) {          // loop through the matrix columns
+      su += pow(fgyfl(i,j), 2);
+    }
 
-  for (int i = 0; i < l2; i ++) {
-
-    fg[i] = x[i];
-
-  }
-
-  for (int i = l2; i < l; i++) {
-
-    fl[i - l2] = x[i];
-
-  }
-
-  for (int i= 0; i < l2; i++) {
-
-    if (pow(fg[i], 2) + pow(fl[i], 2) > lim) {
-
-      su = sqrt(pow(fg[i], 2) + pow(fl[i], 2));
-
-      fg[i] = sqrt(lim) * fg[i] / su;
-      fl[i] = sqrt(lim) * fl[i] / su;
-
+    if (su > lim) {
+      for (int j = 0; j < ln; j++) {
+        fgyfl(i,j) = sqrt(lim) * fgyfl(i,j) / sqrt(su);
+      }
     }
   }
 
-  return List::create(
-    _["FG"] = fg,
-    _["FL"] = fl
-  );
+  return fgyfl;
 
 }
-

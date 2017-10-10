@@ -4,7 +4,7 @@
 \alias{maxccfdf}
 \title{maxccfdf}
 \usage{
-maxccfdf(x = x, lag.max = 6, allow.negative = T, max = T)
+maxccfdf(x = x, lag.max = 6, allow.negative = T, abs = T)
 }
 \arguments{
 \item{x}{data.frame with data}
@@ -12,8 +12,6 @@ maxccfdf(x = x, lag.max = 6, allow.negative = T, max = T)
 \item{lag.max}{maximum lag}
 
 \item{allow.negative}{(Optional) logical, if negative lags are allowed, by default TRUE}
-
-\item{max}{(Optional) logical, Should maximum be returned, in other case minimum is returned}
 }
 \value{
 matrix with maxccf

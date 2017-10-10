@@ -59,10 +59,11 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
                lim = lim)
 
   n = colnames(CD)
+  nm = names(map)[-1]
 
-  R_2 = function(FG = FG, FL = FL, RU = map$cor_cd, hist = hist, CD = CD) {
+  R_2 = function(FG = FG, FL = FL, RU = map, hist = hist, CD = CD, col = col) {
 
-    mat = mat(FG = FG, FL = FL, RU = map$cor_cd, col = n)
+    mat = mat(FG = FG, FL = FL, RU = map, col = col)
     mat = mat %*% CD %*% t(mat)
     diag(mat) = 1
 
@@ -73,9 +74,9 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
 
     # seleccion
 
-    y = fgyfl(x, lim = lim)
+    y = fgyfl(x, lim = lim, n = nm)
 
-    fit = -R_2(FG = y$FG, FL = y$FL, RU = map$cor_cd, hist = hist, CD = CD)
+    fit = -R_2(FG = y[,1], FL = y[,-1], RU = map, hist = hist, CD = CD, col = n)
 
     return(fit)
 
@@ -83,8 +84,8 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
 
   GA = ga(type = "real-valued",
           fitness = fitness,
-          min = rep(0, length(map$cor_cd) * 2),
-          max = rep(1, length(map$cor_cd) * 2),
+          min = rep(0, nrow(map) * ncol(map)),
+          max = rep(1, nrow(map) * ncol(map)),
           lim = lim,
           maxiter = maxiter,
           optim = T,
@@ -93,17 +94,13 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
 
   x = GA@solution[1,]
 
-  x = fgyfl(x, lim = lim)
+  x = fgyfl(x, lim = lim, n = nm)
 
   object@error = GA@fitnessValue
   object@iterations = GA@iter
 
-  object@sensitivities = data.frame(
-    RU = map$cor_his,
-    FG = x$FG,
-    FL = x$FL
-  ) %>%
-    unique()
+  object@sensitivities = cbind(map[,1],
+                               as.data.frame(x))
 
   return(object)
 
@@ -134,6 +131,8 @@ r_squared.sensitivities = function(object) {
 
   r2 = object@sensitivities
   r2$r2 = r2$FG ^ 2 + r2$FL ^ 2
+
+  r2$r2 = apply(object@sensitivities[,-1], 1, function(x) sum(x ^ 2))
 
   return(r2)
 

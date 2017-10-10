@@ -6,28 +6,29 @@
 using namespace Rcpp;
 
 // mat
-NumericMatrix mat(NumericVector FG, NumericVector FL, CharacterVector RU, CharacterVector col);
+NumericMatrix mat(NumericVector FG, NumericMatrix FL, DataFrame RU, CharacterVector col);
 RcppExport SEXP _ECTools_mat(SEXP FGSEXP, SEXP FLSEXP, SEXP RUSEXP, SEXP colSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type FG(FGSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type FL(FLSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type RU(RUSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type FL(FLSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type RU(RUSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type col(colSEXP);
     rcpp_result_gen = Rcpp::wrap(mat(FG, FL, RU, col));
     return rcpp_result_gen;
 END_RCPP
 }
 // fgyfl
-List fgyfl(NumericVector x, double lim);
-RcppExport SEXP _ECTools_fgyfl(SEXP xSEXP, SEXP limSEXP) {
+NumericMatrix fgyfl(NumericVector x, double lim, CharacterVector n);
+RcppExport SEXP _ECTools_fgyfl(SEXP xSEXP, SEXP limSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< double >::type lim(limSEXP);
-    rcpp_result_gen = Rcpp::wrap(fgyfl(x, lim));
+    Rcpp::traits::input_parameter< CharacterVector >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(fgyfl(x, lim, n));
     return rcpp_result_gen;
 END_RCPP
 }

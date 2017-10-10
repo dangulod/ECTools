@@ -5,8 +5,8 @@ mat <- function(FG, FL, RU, col) {
     .Call('_ECTools_mat', PACKAGE = 'ECTools', FG, FL, RU, col)
 }
 
-fgyfl <- function(x, lim) {
-    .Call('_ECTools_fgyfl', PACKAGE = 'ECTools', x, lim)
+fgyfl <- function(x, lim, n) {
+    .Call('_ECTools_fgyfl', PACKAGE = 'ECTools', x, lim, n)
 }
 
 #' The first raw moment
