@@ -10,7 +10,8 @@ setClass(Class = "sensitivities",
            sensitivities = "data.frame",
            error = "numeric",
            iterations = "numeric",
-           CD = "matrix"),
+           CD = "matrix",
+           suggestions = "numeric"),
          package = "ECTools")
 
 # Optimization function ---------------------------------------------------
@@ -29,6 +30,22 @@ setClass(Class = "sensitivities",
 #' system OS: on Windows only 'snow' type functionality is available, while on Unix/Linux/Mac
 #' OSX both 'snow' and 'multicore' (default) functionalities are available.
 #' @param ... Arguments to be passed to ga function
+#'
+#' @examples
+#' x = cor_optim(map = map,
+#'               hist = hist,
+#'               CD = CD,
+#'               lim = 1,
+#'               maxiter = 500,
+#'               run = 10)
+#'
+#' x = cor_optim(map = map,
+#'               hist = hist,
+#'               CD = CD,
+#'               lim = 1,
+#'               maxiter = 500,
+#'               run = 10,
+#'               suggestions = get_suggestions(x))
 #'
 #' @export
 #'
@@ -103,6 +120,8 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
   object@sensitivities = cbind(map[,1],
                                as.data.frame(x))
 
+  object@suggestions = as.numeric(as.matrix(object@sensitivities[,-1]))
+
   return(object)
 
 }
@@ -170,6 +189,21 @@ get_sensitivities.sensitivities = function(object) {
 
 }
 
+#' Get Global & local factor sensitivities
+#'
+#' @export
+get_suggestions = function(object, ...) {
+
+  UseMethod("get_sensitivities", object)
+
+}
+
+get_suggestions.sensitivities = function(object) {
+
+  return(object@suggestions)
+
+}
+
 #' Fitted matrix
 #'
 #' @export
@@ -197,6 +231,7 @@ setMethod("show", "sensitivities", show.sensitivities)
 setMethod("print", "sensitivities", function(x, ...) str(x))
 setMethod("r_squared", "sensitivities", r_squared.sensitivities)
 setMethod("get_sensitivities", "sensitivities", get_sensitivities.sensitivities)
+setMethod("get_suggestions", "sensitivities", get_suggestions.sensitivities)
 setMethod("fitted_cor", "sensitivities", fitted_cor.sensitivities)
 
 #' @export

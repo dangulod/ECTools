@@ -30,3 +30,20 @@ OSX both 'snow' and 'multicore' (default) functionalities are available.}
 \description{
 Global & Local factor optimization
 }
+\examples{
+x = cor_optim(map = map,
+              hist = hist,
+              CD = CD,
+              lim = 1,
+              maxiter = 500,
+              run = 10)
+
+x = cor_optim(map = map,
+              hist = hist,
+              CD = CD,
+              lim = 1,
+              maxiter = 500,
+              run = 10,
+              suggestions = get_suggestions(x))
+
+}
