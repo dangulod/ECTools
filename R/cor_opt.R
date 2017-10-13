@@ -63,11 +63,12 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
 
   R_2 = function(FG = FG, FL = FL, RU = map, hist = hist, CD = CD, col = col) {
 
-    mat = mat(FG = FG, FL = FL, RU = map, col = col)
-    mat = mat %*% CD %*% t(mat)
-    diag(mat) = 1
+    matr = mat(FG = FG, FL = as.matrix(FL), RU = map, col = col)
+    matr = matr %*% CD %*% t(matr)
+    diag(matr) = 1
+    if (max(matr >1)) return(1e10)
 
-    return(sum((hist - mat) ^ 2))
+    return(sum((hist - matr) ^ 2))
   }
 
   fitness = function(x, lim = lim) {
@@ -182,11 +183,11 @@ fitted_cor.sensitivities = function(object) {
 
   n = colnames(object@CD)
 
-  mat = mat(FG = object@sensitivities$FG, FL = object@sensitivities$FL, RU = object@map$cor_cd, col = n)
-  mat = mat %*% object@CD %*% t(mat)
-  diag(mat) = 1
+  matr = mat(FG = object@sensitivities[,2], FL = as.matrix(object@sensitivities[,-(1:2)]), RU = object@map, col = n)
+  matr = matr %*% object@CD %*% t(matr)
+  diag(matr) = 1
 
-  return(mat)
+  return(matr)
 }
 
 
