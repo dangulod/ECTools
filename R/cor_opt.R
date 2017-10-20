@@ -150,7 +150,7 @@ r_squared = function(object, ...) {
 r_squared.sensitivities = function(object) {
 
   r2 = object@sensitivities
-  r2$r2 = r2$FG ^ 2 + r2$FL ^ 2
+  # r2$r2 = r2$FG ^ 2 + r2$FL ^ 2
 
   r2$r2 = apply(object@sensitivities[,-1], 1, function(x) sum(x ^ 2))
 
