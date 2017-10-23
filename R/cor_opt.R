@@ -21,8 +21,8 @@ setClass(Class = "sensitivities",
 #' @param map Dataframe with the correspondence
 #' @param hist Matrix with historical correlation
 #' @param CD Matrix with credit drivers correlation
-#' @param lim Numeric it acts as a limit of FG ^ 2 + FL ^ 2, by default is 0.6
-#' @param maxiter Numeric the maximum number of iterations to run
+#' @param lim Numeric, limit of the sum squared of the factors, by default 1
+#' @param maxiter Numeric, the maximum number of iterations to run
 #' @param parallel Logical, argument specifying if parallel computing should be used
 #' (TRUE) or not (FALSE, default) for evaluating the fitness function. This argument
 #' could also be used to specify the number of cores to employ; by default, this is
@@ -47,9 +47,19 @@ setClass(Class = "sensitivities",
 #'               run = 10,
 #'               suggestions = get_suggestions(x))
 #'
+#' summary(x)
+#'
+#' fitted_cor(x)
+#'
+#' get_sensitivities(x)
+#'
+#' get_suggestions(x)
+#'
+#' r_squared(x)
+#'
 #' @export
 #'
-cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, parallel = F, ...) {
+cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, parallel = F,  minFG = 0,...) {
 
   # COMPROBACIONES INICIALES
     # esta instalada la libreria
@@ -100,10 +110,12 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
 
   }
 
+  if (ncol(map) > 2 & minFG != 0) {stop("ERROR: this option is not allowed")} else {maxFL = sqrt(1 - (minFG / sqrt(minFG ^ 2 + 1) ^ 2))}
+
   GA = ga(type = "real-valued",
           fitness = fitness,
-          min = rep(0, nrow(map) * ncol(map)),
-          max = rep(1, nrow(map) * ncol(map)),
+          min = c(rep(minFG, nrow(map)), rep(0, nrow(map) * (ncol(map) - 1))), #  c(rep(minFG, nrow(map)), rep(minFG, nrow(map) * (ncol(map) - 1)))         rep(minFG, nrow(map) * ncol(map))
+          max = c(rep(1, nrow(map)), rep(maxFL, nrow(map) * (ncol(map) - 1))),
           lim = lim,
           maxiter = maxiter,
           optim = T,

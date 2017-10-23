@@ -5,7 +5,7 @@
 \title{Global & Local factor optimization}
 \usage{
 cor_optim(map = map, hist = hist, CD = CD, lim = 1, maxiter = 10000,
-  parallel = F, ...)
+  parallel = F, minFG = 0, ...)
 }
 \arguments{
 \item{map}{Dataframe with the correspondence}
@@ -14,9 +14,9 @@ cor_optim(map = map, hist = hist, CD = CD, lim = 1, maxiter = 10000,
 
 \item{CD}{Matrix with credit drivers correlation}
 
-\item{lim}{Numeric it acts as a limit of FG ^ 2 + FL ^ 2, by default is 0.6}
+\item{lim}{Numeric, limit of the sum squared of the factors, by default 1}
 
-\item{maxiter}{Numeric the maximum number of iterations to run}
+\item{maxiter}{Numeric, the maximum number of iterations to run}
 
 \item{parallel}{Logical, argument specifying if parallel computing should be used
 (TRUE) or not (FALSE, default) for evaluating the fitness function. This argument
@@ -45,5 +45,15 @@ x = cor_optim(map = map,
               maxiter = 500,
               run = 10,
               suggestions = get_suggestions(x))
+
+summary(x)
+
+fitted_cor(x)
+
+get_sensitivities(x)
+
+get_suggestions(x)
+
+r_squared(x)
 
 }

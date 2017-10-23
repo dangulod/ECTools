@@ -82,7 +82,9 @@ map = read_excel("/Users/n87557/Documents/Metodologia de capital/Correlations/da
 
 library(ECTools)
 
-x = cor_optim(map = map,hist = hist, CD = CD, lim = 1, maxiter = 500, run = 10)
+x = cor_optim(map = map,hist = hist, CD = CD, lim = 1, maxiter = 1000, minFG = 0.4)
+
+summary(x)
 
 x = cor_optim(map = map,hist = hist, CD = CD, lim = 1, maxiter = 500, run = 10, suggestions = get_suggestions(x))
 
