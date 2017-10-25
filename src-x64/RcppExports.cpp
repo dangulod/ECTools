@@ -5,6 +5,47 @@
 
 using namespace Rcpp;
 
+// RcOut
+std::vector<double> RcOut(double A, double B, double C, double D, std::vector<double> PD, std::vector<double> LGD, std::vector<double> weight, std::vector<double> EAD, std::vector<double> CORR, std::vector<double> UL);
+RcppExport SEXP _ECTools_RcOut(SEXP ASEXP, SEXP BSEXP, SEXP CSEXP, SEXP DSEXP, SEXP PDSEXP, SEXP LGDSEXP, SEXP weightSEXP, SEXP EADSEXP, SEXP CORRSEXP, SEXP ULSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type A(ASEXP);
+    Rcpp::traits::input_parameter< double >::type B(BSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< double >::type D(DSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type PD(PDSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type LGD(LGDSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type weight(weightSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type EAD(EADSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type CORR(CORRSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type UL(ULSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcOut(A, B, C, D, PD, LGD, weight, EAD, CORR, UL));
+    return rcpp_result_gen;
+END_RCPP
+}
+// resid
+double resid(double A, double B, double C, double D, std::vector<double> PD, std::vector<double> LGD, std::vector<double> weight, std::vector<double> EAD, std::vector<double> CORR, std::vector<double> UL, std::vector<double> RcIn);
+RcppExport SEXP _ECTools_resid(SEXP ASEXP, SEXP BSEXP, SEXP CSEXP, SEXP DSEXP, SEXP PDSEXP, SEXP LGDSEXP, SEXP weightSEXP, SEXP EADSEXP, SEXP CORRSEXP, SEXP ULSEXP, SEXP RcInSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type A(ASEXP);
+    Rcpp::traits::input_parameter< double >::type B(BSEXP);
+    Rcpp::traits::input_parameter< double >::type C(CSEXP);
+    Rcpp::traits::input_parameter< double >::type D(DSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type PD(PDSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type LGD(LGDSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type weight(weightSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type EAD(EADSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type CORR(CORRSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type UL(ULSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type RcIn(RcInSEXP);
+    rcpp_result_gen = Rcpp::wrap(resid(A, B, C, D, PD, LGD, weight, EAD, CORR, UL, RcIn));
+    return rcpp_result_gen;
+END_RCPP
+}
 // mat
 NumericMatrix mat(NumericVector FG, NumericMatrix FL, DataFrame RU, CharacterVector col);
 RcppExport SEXP _ECTools_mat(SEXP FGSEXP, SEXP FLSEXP, SEXP RUSEXP, SEXP colSEXP) {
