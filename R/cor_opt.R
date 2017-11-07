@@ -6,6 +6,7 @@ setClass(Class = "sensitivities",
            hist = "matrix",
            map = "data.frame",
            lim = "numeric",
+           minFG = "numeric",
            maxiter = "numeric",
            sensitivities = "data.frame",
            error = "numeric",
@@ -83,6 +84,7 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
                map = map,
                CD = CD,
                maxiter = maxiter,
+               minFG = minFG,
                lim = lim)
 
   n = colnames(CD)
@@ -178,6 +180,7 @@ summary.sensitivities <- function(object, ...) {
   cat("Settings: \n")
   cat(paste("  lim                   = ", object@lim, "\n"))
   cat(paste("  maxiter               = ", object@maxiter, "\n\n"))
+  cat(paste("  minFG               = ", object@minFG, "\n\n"))
   cat("Estimation results:\n")
   cat(paste("  error                 = ", format(object@error, digits = 4, scientific = F), "\n"))
   cat(paste("  iterations            = ", object@iterations, "\n\n"))
