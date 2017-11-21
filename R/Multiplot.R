@@ -110,11 +110,11 @@ ggplot_missing <- function(x){
 #'
 #' @export
 #'
-qqPlot = function(object, ...) UseMethod("qqPlot", object)
+qqPlot = function(x, ...) UseMethod("qqPlot", x)
 
 qqPlot.default = function(x, distribution="norm", ..., ylab=deparse(substitute(x)),
                           xlab=paste(distribution, "quantiles"), main=NULL, las=par("las"),
-                          envelope=.95,
+                          envelope=.95, cex.lab = NULL,
                           col=palette()[1], col.lines=palette()[2], lwd=2, pch=1, cex=par("cex"),
                           line=c("quartiles", "robust", "none"),
                           labels = if(!is.null(names(x))) names(x) else seq(along=x),
@@ -135,7 +135,7 @@ qqPlot.default = function(x, distribution="norm", ..., ylab=deparse(substitute(x
   n <- length(ord.x)
   P <- ppoints(n)
   z <- q.function(P, ...)
-  plot(z, ord.x, type="n", xlab=xlab, ylab=ylab, main=main, las=las)
+  plot(z, ord.x, type="n", xlab=xlab, ylab=ylab, main=main, las=las, cex.lab = cex.lab)
   if(grid){
     grid(lty=1, equilogs=FALSE)
     box()}
@@ -345,11 +345,11 @@ showLabels1 <- function(x, y, labels=NULL, id.method="identify",
 }
 
 
-qqPlot.saddlepoint = function(object, ...) {
+qqPlot.saddlepoint = function(x, ...) {
 
   warning("Quantile plot in saddlepoint class is experimental")
 
-  x = object@data[order(object@data)]
+  x = x@data[order(x@data)]
   n = length(x)
   p = seq(0, 1, length.out = n)
 
@@ -382,3 +382,6 @@ qqPlot.saddlepoint = function(object, ...) {
              id.method = "y", id.n = 0, id.cex = 1, id.col = palette()[1], id.location = "lr")
 }
 
+setMethod("qqPlot", "numeric", qqPlot.default)
+setMethod("qqPlot", "glm", qqPlot.glm)
+setMethod("qqPlot", "lm", qqPlot.lm)

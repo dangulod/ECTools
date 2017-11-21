@@ -131,12 +131,12 @@ plot.skewt = function(x = x, n = 1e6) {
 
 }
 
-qqPlot.skewt = function(object = object, ...) {
+qqPlot.skewt = function(x = x, ...) {
 
-  qqPlot(object@data,
+  qqPlot(x@data,
          dist="st",
          pch = 20,
-         dp = get_param(object),
+         dp = get_param(x),
          ...)
 }
 

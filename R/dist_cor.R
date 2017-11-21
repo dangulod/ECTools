@@ -75,10 +75,11 @@ noindicesdiss <- function( fun ) {
 #'
 #' @description Computes an adaptive dissimilarity index between two time series that covers both dissimilarity on
 #' raw values and dissimilarity on temporal correlation behaviors.
-#' @param SERIES data
-#' @param ... beta = NULL
 #'
-#' @details ¡¡FILL!!
+#' @param SERIES data
+#' @param ...
+#'
+#' @details dissimilarity measures based on the Pearson correlation factor between two series
 #'
 #' @return The computed distance.
 #'

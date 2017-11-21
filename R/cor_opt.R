@@ -112,7 +112,7 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
 
   }
 
-  if (ncol(map) > 2 & minFG != 0) {stop("ERROR: this option is not allowed")} else {maxFL = sqrt(1 - (minFG / sqrt(minFG ^ 2 + 1) ^ 2))}
+  if (ncol(map) > 2 & minFG != 0) {stop("ERROR: this option is not allowed")} else {maxFL = sqrt(lim - (minFG ^ 2))}
 
   GA = ga(type = "real-valued",
           fitness = fitness,
@@ -179,8 +179,8 @@ summary.sensitivities <- function(object, ...) {
   cat("+-----------------------------------+\n\n")
   cat("Settings: \n")
   cat(paste("  lim                   = ", object@lim, "\n"))
-  cat(paste("  maxiter               = ", object@maxiter, "\n\n"))
-  cat(paste("  minFG               = ", object@minFG, "\n\n"))
+  cat(paste("  maxiter               = ", object@maxiter, "\n"))
+  cat(paste("  minFG                 = ", object@minFG, "\n\n"))
   cat("Estimation results:\n")
   cat(paste("  error                 = ", format(object@error, digits = 4, scientific = F), "\n"))
   cat(paste("  iterations            = ", object@iterations, "\n\n"))

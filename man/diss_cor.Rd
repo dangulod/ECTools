@@ -9,7 +9,7 @@ diss_cor(SERIES, ...)
 \arguments{
 \item{SERIES}{data}
 
-\item{...}{beta = NULL}
+\item{...}{}
 }
 \value{
 The computed distance.
@@ -19,7 +19,7 @@ Computes an adaptive dissimilarity index between two time series that covers bot
 raw values and dissimilarity on temporal correlation behaviors.
 }
 \details{
-¡¡FILL!!
+dissimilarity measures based on the Pearson correlation factor between two series
 }
 \references{
 Chouakria-Douzal, A. and Nagabhushan P. N. (2007) Adaptive dissimilarity index for measuring
