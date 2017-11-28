@@ -82,7 +82,7 @@ map = read_excel("/Users/n87557/Documents/Metodologia de capital/Correlations/da
 
 library(ECTools)
 
-x = cor_optim(map = map,hist = hist, CD = CD, lim = 1, maxiter = 1000, minFG = 0.4)
+x = cor_optim(map = map[,-3],hist = hist, CD = CD, lim = 1, maxiter = 1000, minFG = 0.4)
 
 summary(x)
 
@@ -108,3 +108,48 @@ R_2(FG = xx[,2], FL = as.matrix(xx[,-(1:2)]), RU = map, hist = hist, CD = CD, co
 
 
 xx %>% write.csv2("/Users/n87557/Desktop/sensi.txt")
+
+
+# ALM ---------------------------------------------------------------------
+
+library(ECTools)
+library(readxl)
+library(tibble)
+
+hist = read_excel("/Users/n87557/Desktop/cor_hist_ALM_max_1.xlsx",
+           sheet = "matriz") %>%
+  as.data.frame() %>%
+  column_to_rownames("X__1") %>%
+  apply(c(1,2), function(x) max(x, 0)) %>%
+  as.matrix()
+
+map = read_excel("/Users/n87557/Desktop/cor_hist_ALM_max_1.xlsx",
+                 sheet = "mapeo")
+
+CD = read_excel("/Users/n87557/Desktop/matriz_prueba18_02112017.xlsx") %>%
+  as.data.frame() %>%
+  column_to_rownames("X__1") %>%
+  abs() %>%
+  as.matrix()
+
+x = cor_optim(map = map,
+              hist = hist,
+              CD = CD,
+              lim = 0.6,
+              maxiter = 5000,
+              minFG = 0.27,
+              run = 1000)
+
+summary(x)
+maxFL  = sqrt(lim - (minFG ^ 2))
+
+c(rep(minFG, nrow(map)), rep(0, nrow(map) * (ncol(map) - 1)))
+c(rep(1, nrow(map)), rep(maxFL, nrow(map) * (ncol(map) - 1)))
+
+0.7331439 ^ 2 + minFG ^ 2
+
+qqPlot(rst(100, omega = 1, alpha = 0.6, nu = 2),
+       cex = 0.7,
+       pch = 16,
+       ylab = "Sample Quantiles",
+       xlab = "Theorical Quantiles", cex.lab = 1, cex.axis = 0.1)

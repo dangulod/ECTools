@@ -1,0 +1,40 @@
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage[bottom]{footmisc}
+
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{
+  \color{red}\leaders\hrule height \headrulewidth\hfill}}
+
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\footrule}{\hbox to\headwidth{
+  \color{red}\leaders\hrule height \footrulewidth\hfill}}
+
+
+\pagestyle{fancy}
+
+\fancyhf{}
+
+\fancyhead[LO,LE]{\includegraphics[width=2cm]{images/logo.png}}
+\fancyhead[RO,RE]{Company}
+\fancyfoot[LO,LE]{Department}
+\fancyfoot[RO,RE]{\thepage}
+
+
+
+\captionsetup[figure]{font = small,skip = 5pt,position=above}
+
+\captionsetup[table]{font = small
+                     ,skip = 10pt
+                     }
+

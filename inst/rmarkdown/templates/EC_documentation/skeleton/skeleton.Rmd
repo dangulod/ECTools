@@ -1,0 +1,64 @@
+---
+always_allow_html: yes
+encoding: UTF-8
+output:
+  pdf_document:
+    fig_caption: yes
+    includes:
+      in_header: tex/preamble-latex.tex
+    keep_tex: yes
+    number_sections: yes
+  html_document:
+    df_print: paged
+  word_document: 
+    fig_caption: yes
+bibliography: tex/bibliography.bib
+link-citations: true
+---
+
+\begin{titlepage}
+	
+	\raggedleft
+	
+	\rule{1pt}{\textheight}
+	\hspace{0.05\textwidth}
+	\parbox[b]{0.75\textwidth}{
+		
+		{\Huge\bfseries Insert title}\\[2\baselineskip]
+		{\large\textit{Department}}\\[4\baselineskip]
+		{\Large\textsc{Company}}
+		
+		\vspace{0.5\textheight} 
+		
+		{\noindent \includegraphics[width=7cm]{images/logo.png}}\\[\baselineskip]
+	}
+
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\listoftables
+
+\newpage
+
+\listoffigures
+
+\newpage
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE,
+	fig.height = 3
+)
+```
+
+```{r child = 'RMD/chapter_1.Rmd'}
+```
+
+\newpage
+
+# References

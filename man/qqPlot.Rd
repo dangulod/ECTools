@@ -4,7 +4,7 @@
 \alias{qqPlot}
 \title{Quantile-comparison plots (J. Fox)}
 \usage{
-qqPlot(object, ...)
+qqPlot(x, ...)
 }
 \description{
 Quantile-comparison plots (J. Fox)

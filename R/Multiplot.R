@@ -114,7 +114,7 @@ qqPlot = function(x, ...) UseMethod("qqPlot", x)
 
 qqPlot.default = function(x, distribution="norm", ..., ylab=deparse(substitute(x)),
                           xlab=paste(distribution, "quantiles"), main=NULL, las=par("las"),
-                          envelope=.95, cex.lab = NULL,
+                          envelope=.95, cex.lab = NULL, cex.axis = NULL,
                           col=palette()[1], col.lines=palette()[2], lwd=2, pch=1, cex=par("cex"),
                           line=c("quartiles", "robust", "none"),
                           labels = if(!is.null(names(x))) names(x) else seq(along=x),
@@ -135,7 +135,7 @@ qqPlot.default = function(x, distribution="norm", ..., ylab=deparse(substitute(x
   n <- length(ord.x)
   P <- ppoints(n)
   z <- q.function(P, ...)
-  plot(z, ord.x, type="n", xlab=xlab, ylab=ylab, main=main, las=las, cex.lab = cex.lab)
+  plot(z, ord.x, type="n", xlab=xlab, ylab=ylab, main=main, las=las, cex.lab = cex.lab, cex.axis = cex.axis)
   if(grid){
     grid(lty=1, equilogs=FALSE)
     box()}
