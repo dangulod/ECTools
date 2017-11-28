@@ -1,9 +1,9 @@
 Package: ECTools
 Type: Package
 Title: Economic Capital Tools
-Version: 0.1.3
+Version: 0.1.4
 Author: Economic Capital Models
-Maintainer: <angulo.davi@gmail.com.es>
+Maintainer: <angulo.davi@gmail.com>
 Description: Usefull functions for Economic Capital 
 License: 
 Encoding: UTF-8

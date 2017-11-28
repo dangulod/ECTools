@@ -1,4 +1,8 @@
 ---
+params:
+  title: "Insert title"
+  company: "Company"
+  department: "Department"
 always_allow_html: yes
 encoding: UTF-8
 output:
@@ -24,9 +28,9 @@ link-citations: true
 	\hspace{0.05\textwidth}
 	\parbox[b]{0.75\textwidth}{
 		
-		{\Huge\bfseries Insert title}\\[2\baselineskip]
-		{\large\textit{Department}}\\[4\baselineskip]
-		{\Large\textsc{Company}}
+		{\Huge\bfseries `r paste(params$title)`}\\[2\baselineskip]
+		{\large\textit{`r paste(params$company)`}}\\[4\baselineskip]
+		{\Large\textsc{`r paste(params$department)`}}
 		
 		\vspace{0.5\textheight} 
 		
