@@ -1,0 +1,30 @@
+\begin{titlepage}
+
+	\raggedleft
+
+	\rule{1pt}{\textheight}
+	\hspace{0.05\textwidth}
+	\parbox[b]{0.75\textwidth}{
+
+		{\Huge\bfseries `r paste(params$title)`}\\[2\baselineskip]
+		{\large\textit{`r paste(params$company)`}}\\[4\baselineskip]
+		{\Large\textsc{`r paste(params$department)`}}
+
+		\vspace{0.5\textheight}
+
+		{\noindent \includegraphics[width=7cm]{images/logo.png}}\\[\baselineskip]
+	}
+
+\end{titlepage}
+
+\fancyhead[LO,LE]{\includegraphics[width=2cm]{images/logo.png}}
+\fancyhead[RO,RE]{`r paste(params$company)`}
+\fancyfoot[LO,LE]{`r paste(params$department)`}
+\fancyfoot[RO,RE]{\thepage}
+
+`r if (params$table_of_contents) paste("\\tableofcontents", "\\newpage", sep = "  ")`
+
+`r if (params$list_of_tables) paste("\\listoftables", "\\newpage", sep = "  ")`
+
+`r if (params$list_of_figures) paste("\\listoffigures", "\\newpage", sep = "  ")`
+

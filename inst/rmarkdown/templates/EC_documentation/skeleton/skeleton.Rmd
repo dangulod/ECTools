@@ -3,6 +3,9 @@ params:
   title: "Insert title"
   company: "Company"
   department: "Department"
+  table_of_contents: F
+  list_of_tables: F
+  list_of_figures: F
 always_allow_html: yes
 encoding: UTF-8
 output:
@@ -20,36 +23,8 @@ bibliography: tex/bibliography.bib
 link-citations: true
 ---
 
-\begin{titlepage}
-	
-	\raggedleft
-	
-	\rule{1pt}{\textheight}
-	\hspace{0.05\textwidth}
-	\parbox[b]{0.75\textwidth}{
-		
-		{\Huge\bfseries `r paste(params$title)`}\\[2\baselineskip]
-		{\large\textit{`r paste(params$company)`}}\\[4\baselineskip]
-		{\Large\textsc{`r paste(params$department)`}}
-		
-		\vspace{0.5\textheight} 
-		
-		{\noindent \includegraphics[width=7cm]{images/logo.png}}\\[\baselineskip]
-	}
-
-\end{titlepage}
-
-\tableofcontents
-
-\newpage
-
-\listoftables
-
-\newpage
-
-\listoffigures
-
-\newpage
+```{r child = 'RMD/titlepage.Rmd'}
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
