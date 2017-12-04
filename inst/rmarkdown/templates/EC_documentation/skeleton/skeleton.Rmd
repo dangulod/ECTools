@@ -3,6 +3,7 @@ params:
   title: "Insert title"
   company: "Company"
   department: "Department"
+  border: "Area"
   table_of_contents: F
   list_of_tables: F
   list_of_figures: F

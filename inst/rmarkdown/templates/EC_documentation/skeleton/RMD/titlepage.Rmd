@@ -1,17 +1,19 @@
 \begin{titlepage}
-
+	
 	\raggedleft
-
-	\rule{1pt}{\textheight}
+	\rule{2pt}{\textheight}
+	\hspace{0.01\textwidth}
+	\rotatebox[origin=lt]{90}{\red\Huge\textbf{`r paste(params$border)`}}
+	\rule{2pt}{\textheight}
 	\hspace{0.05\textwidth}
 	\parbox[b]{0.75\textwidth}{
-
+		
 		{\Huge\bfseries `r paste(params$title)`}\\[2\baselineskip]
 		{\large\textit{`r paste(params$company)`}}\\[4\baselineskip]
 		{\Large\textsc{`r paste(params$department)`}}
-
-		\vspace{0.5\textheight}
-
+		
+		\vspace{0.5\textheight} 
+		
 		{\noindent \includegraphics[width=7cm]{images/logo.png}}\\[\baselineskip]
 	}
 
