@@ -60,7 +60,7 @@ setClass(Class = "sensitivities",
 #'
 #' @export
 #'
-cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, parallel = F,  minFG = 0,...) {
+cor_optim = function(hist = hist, CD = CD, map = map, lim = 1, maxiter = 1e4, parallel = F,  minFG = 0,...) {
 
   # COMPROBACIONES INICIALES
     # esta instalada la libreria
@@ -160,7 +160,6 @@ r_squared = function(object, ...) {
 
 }
 
-
 r_squared.sensitivities = function(object) {
 
   r2 = object@sensitivities
@@ -169,6 +168,12 @@ r_squared.sensitivities = function(object) {
   r2$r2 = apply(object@sensitivities[,-1], 1, function(x) sum(x ^ 2))
 
   return(r2)
+
+}
+
+r_squared.list = function(object) {
+
+  return(lapply(object, function(x) r_squared(x)))
 
 }
 
@@ -204,6 +209,12 @@ get_sensitivities.sensitivities = function(object) {
 
 }
 
+get_sensitivities.list = function(object) {
+
+  return(lapply(object, function(x) get_sensitivities(x)))
+
+}
+
 #' Get Global & local factor sensitivities
 #'
 #' @export
@@ -216,6 +227,12 @@ get_suggestions = function(object, ...) {
 get_suggestions.sensitivities = function(object) {
 
   return(object@suggestions)
+
+}
+
+get_suggestions.list = function(object) {
+
+  return(lapply(object, function(x) get_suggestions(x)))
 
 }
 
@@ -239,15 +256,24 @@ fitted_cor.sensitivities = function(object) {
   return(matr)
 }
 
+fitted_cor.list = function(object) {
+
+  return(lapply(object, function(x) fitted_cor(x)))
+
+}
 
 # Set methods -------------------------------------------------------------
 
 setMethod("show", "sensitivities", show.sensitivities)
 setMethod("print", "sensitivities", function(x, ...) str(x))
 setMethod("r_squared", "sensitivities", r_squared.sensitivities)
+setMethod("r_squared", "list", r_squared.list)
 setMethod("get_sensitivities", "sensitivities", get_sensitivities.sensitivities)
+setMethod("get_sensitivities", "list", get_sensitivities.list)
 setMethod("get_suggestions", "sensitivities", get_suggestions.sensitivities)
+setMethod("get_suggestions", "list", get_suggestions.list)
 setMethod("fitted_cor", "sensitivities", fitted_cor.sensitivities)
+setMethod("fitted_cor", "list", fitted_cor.list)
 
 #' @export
 setMethod("summary", signature(object = "sensitivities"), summary.sensitivities)
