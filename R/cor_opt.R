@@ -71,10 +71,10 @@ cor_optim = function(map = map, hist = hist, CD = CD, lim = 1, maxiter = 1e4, pa
     # matrices
 
   if (!is.matrix(hist)) stop("'hist' must be a matrix")
-  if (!isSymmetric.matrix(hist)) stop ("'hist' is not a valid correlation matrix")
+  if (any(hist != t(hist))) stop ("'hist' is not a valid correlation matrix")
 
   if (!is.matrix(CD)) stop("'CD' must be a matrix")
-  if (!isSymmetric.matrix(CD)) stop ("'CD' is not a valid correlation matrix")
+  if (any(hist != t(hist))) stop ("'CD' is not a valid correlation matrix")
 
   call = match.call()
 
