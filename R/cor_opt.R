@@ -59,8 +59,23 @@ setClass(Class = "sensitivities",
 #' r_squared(x)
 #'
 #' @export
-#'
-cor_optim = function(hist = hist, CD = CD, map = map, lim = 1, maxiter = 1e4, parallel = F,  minFG = 0,...) {
+cor_optim = function(hist, ...) UseMethod("cor_optim", hist)
+
+cor_optim.matrix = function(hist, ...) coroptim(hist, ...)
+
+cor_optim.sensitivities = function(hist, ...) {
+
+  coroptim(hist = hist@hist,
+           CD = hist@CD,
+           map = hist@map,
+           lim = hist@lim,
+           maxiter = hist@maxiter,
+           minFG = hist@minFG,
+           suggestions = get_suggestions(hist),
+           ...)
+}
+
+coroptim = function(hist = hist, CD = CD, map = map, lim = 1, maxiter = 1e4, parallel = F,  minFG = 0,...) {
 
   # COMPROBACIONES INICIALES
     # esta instalada la libreria
@@ -278,4 +293,5 @@ setMethod("fitted_cor", "list", fitted_cor.list)
 #' @export
 setMethod("summary", signature(object = "sensitivities"), summary.sensitivities)
 
-
+setMethod("cor_optim", "matrix", cor_optim.matrix)
+setMethod("cor_optim", "sensitivities", cor_optim.sensitivities)

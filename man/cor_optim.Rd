@@ -4,13 +4,14 @@
 \alias{cor_optim}
 \title{Global & Local factor optimization}
 \usage{
-cor_optim(map = map, hist = hist, CD = CD, lim = 1, maxiter = 10000,
-  parallel = F, minFG = 0, ...)
+cor_optim(hist, ...)
 }
 \arguments{
-\item{map}{Dataframe with the correspondence}
-
 \item{hist}{Matrix with historical correlation}
+
+\item{...}{Arguments to be passed to ga function}
+
+\item{map}{Dataframe with the correspondence}
 
 \item{CD}{Matrix with credit drivers correlation}
 
@@ -24,8 +25,6 @@ could also be used to specify the number of cores to employ; by default, this is
 taken from detectCores. Finally, the functionality of parallelization depends on
 system OS: on Windows only 'snow' type functionality is available, while on Unix/Linux/Mac
 OSX both 'snow' and 'multicore' (default) functionalities are available.}
-
-\item{...}{Arguments to be passed to ga function}
 }
 \description{
 Global & Local factor optimization
