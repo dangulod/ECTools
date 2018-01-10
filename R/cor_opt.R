@@ -63,6 +63,12 @@ cor_optim = function(hist, ...) UseMethod("cor_optim", hist)
 
 cor_optim.matrix = function(hist, ...) coroptim(hist, ...)
 
+cor_optim.list = function(hist) {
+
+  return(lapply(object, function(x) cor_optim(x)))
+
+}
+
 cor_optim.sensitivities = function(hist, ...) {
 
   coroptim(hist = hist@hist,
@@ -75,7 +81,7 @@ cor_optim.sensitivities = function(hist, ...) {
            ...)
 }
 
-coroptim = function(hist = hist, CD = CD, map = map, lim = 1, maxiter = 1e4, parallel = F,  minFG = 0,...) {
+coroptim = function(hist = hist, CD = CD, map = map, lim = 1, maxiter = 1e4, parallel = F,  minFG = 0, seed = 1, ...) {
 
   # COMPROBACIONES INICIALES
     # esta instalada la libreria
@@ -137,6 +143,7 @@ coroptim = function(hist = hist, CD = CD, map = map, lim = 1, maxiter = 1e4, par
           maxiter = maxiter,
           optim = T,
           parallel = parallel,
+          seed = seed,
           ...)
 
   x = GA@solution[1,]
@@ -294,4 +301,5 @@ setMethod("fitted_cor", "list", fitted_cor.list)
 setMethod("summary", signature(object = "sensitivities"), summary.sensitivities)
 
 setMethod("cor_optim", "matrix", cor_optim.matrix)
+setMethod("cor_optim", "list", cor_optim.list)
 setMethod("cor_optim", "sensitivities", cor_optim.sensitivities)
