@@ -284,6 +284,48 @@ fitted_cor.list = function(object) {
 
 }
 
+#' Get equation
+#'
+#' @export
+get_equation = function(object, ...) {
+
+  UseMethod("get_equation", object)
+
+}
+
+get_equation.sensitivities = function(object) {
+
+  if (ncol(object@map) > 2) return("Not supported")
+
+  rows = object@map$RU
+  cols = colnames(object@CD)
+  fl = as.data.frame(object@map)[,2]
+
+  equ = matrix(0,
+               nrow = length(rows),
+               ncol = length(cols),
+               dimnames = list(
+                 rows,
+                 cols
+               ))
+
+  equ[, 1] = object@sensitivities[,2]
+
+  for (i in 1:length(rows)) {
+    equ[i, fl[i]] = object@sensitivities[i,3]
+  }
+
+  equ = rownames_to_column(as.data.frame(equ), var = "Equation")
+
+  return(equ)
+}
+
+get_equation.list = function(object) {
+
+  return(bind_rows(lapply(object, function(x) get_equation(x))))
+
+}
+
 # Set methods -------------------------------------------------------------
 
 setMethod("show", "sensitivities", show.sensitivities)
@@ -296,6 +338,10 @@ setMethod("get_suggestions", "sensitivities", get_suggestions.sensitivities)
 setMethod("get_suggestions", "list", get_suggestions.list)
 setMethod("fitted_cor", "sensitivities", fitted_cor.sensitivities)
 setMethod("fitted_cor", "list", fitted_cor.list)
+
+setMethod("get_equation", "sensitivities", get_equation.sensitivities)
+setMethod("get_equation", "list", get_equation.list)
+
 
 #' @export
 setMethod("summary", signature(object = "sensitivities"), summary.sensitivities)
