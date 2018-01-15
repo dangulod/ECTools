@@ -1,11 +1,12 @@
 ---
 params:
-  title: "Insert title"
-  company: "Company"
-  department: "Department"
-  border: "Area"
-  table_of_contents: F
-  list_of_tables: F
+  title: "2018 EC Model for XXXXX"
+  department: "Economic Capital Models Development Team"
+  company: "Capital, Counterparty and Non-Financial Risks Model Development"
+  border: "Economic Capital Models Department"
+  executive: "The objective of the current report is to describe the methodology of computing the economic capital for XXXXXXX, as well as the aggregation with the other risks within the Economic Capital Tool."
+  table_of_contents: T
+  list_of_tables: T
   list_of_figures: F
 always_allow_html: yes
 encoding: UTF-8
@@ -15,6 +16,7 @@ output:
     includes:
       in_header: tex/preamble-latex.tex
     keep_tex: yes
+    latex_engine: xelatex
     number_sections: yes
   html_document:
     df_print: paged
@@ -24,9 +26,6 @@ bibliography: tex/bibliography.bib
 link-citations: true
 ---
 
-```{r child = 'RMD/titlepage.Rmd'}
-```
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
 	echo = FALSE,
@@ -34,6 +33,16 @@ knitr::opts_chunk$set(
 	warning = FALSE,
 	fig.height = 3
 )
+```
+
+```{r load_libraries}
+suppressPackageStartupMessages(library(magrittr))
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(kableExtra))
+```
+
+```{r child = 'RMD/titlepage.Rmd'}
 ```
 
 ```{r child = 'RMD/chapter_1.Rmd'}

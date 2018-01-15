@@ -1,32 +1,56 @@
 \begin{titlepage}
-	
-	\raggedleft
-	\rule{2pt}{\textheight}
-	\hspace{0.01\textwidth}
-	\rotatebox[origin=lt]{90}{\red\Huge\textbf{`r paste(params$border)`}}
-	\rule{2pt}{\textheight}
-	\hspace{0.05\textwidth}
-	\parbox[b]{0.75\textwidth}{
-		
-		{\Huge\bfseries `r paste(params$title)`}\\[2\baselineskip]
-		{\large\textit{`r paste(params$company)`}}\\[4\baselineskip]
-		{\Large\textsc{`r paste(params$department)`}}
-		
-		\vspace{0.5\textheight} 
-		
-		{\noindent \includegraphics[width=7cm]{images/logo.png}}\\[\baselineskip]
-	}
-
+  \psset{unit=1in,linewidth=2pt}
+    {\psline(0,5)(0,-\paperheight)}
+    \psline(0.55,5)(0.55,-\paperheight)
+      \rput[lb]{90}(0.4,-0.83\paperheight){\red\huge\textbf{Economic Capital Models Development - Santander Analytics}}
+    \vspace*{3cm}
+    \begin{center}
+      \huge \textbf{`r paste(params$title)`}
+    \vspace{0.5cm}
+    \\
+    \vspace{0.5cm}
+      \Large Capital, Counterparty and 
+    \\
+      \Large Non-Financial Risks Model Development
+    \\
+    \vspace{0.5cm}
+      \Large{\bf Santander Analytics}
+    \\
+    \vspace{12cm}
+      \includegraphics[width=5cm]{images/logo.png}
+    \end{center}
 \end{titlepage}
 
 \fancyhead[LO,LE]{\includegraphics[width=2cm]{images/logo.png}}
-\fancyhead[RO,RE]{`r paste(params$company)`}
-\fancyfoot[LO,LE]{`r paste(params$department)`}
-\fancyfoot[RO,RE]{\thepage}
+\fancyhead[RO,RE]{Page \thepage\ of \pageref{LastPage}}
+\fancyfoot[LO,LE]{`r paste(params$company)`}
+
+\begin{center}
+{\large\textbf{Executive summary}}
+\end{center}
+
+\hspace{0.5\textheight} 
+
+`r paste(params$executive)`
+
+\hspace{0.5\textheight} 
+
+```{r}
+read_excel("version.xlsx") %>% 
+  kable(format = "latex") %>% 
+  kable_styling(full_width = T) %>% 
+  row_spec(0, bold = T)
+```
+
+\vspace{0.5\textheight}
+
+\begin{framed}
+The information contained in this document is confidential and belongs to Banco Santander, S.A. The contents of this presentation (including texts, images, structure, colour combinations, logos, animated images, audio and video files, etc.) are protected by industrial and intellectual property laws. Any form of disclosure, reproduction, copying or distribution in full or in part of the presentation is prohibited, and its contents cannot be used for any other purposes without the express authorisation of Banco Santander, S.A.
+\end{framed}
+
+\newpage
 
 `r if (params$table_of_contents) paste("\\tableofcontents", "\\newpage", sep = "  ")`
 
 `r if (params$list_of_tables) paste("\\listoftables", "\\newpage", sep = "  ")`
-
-`r if (params$list_of_figures) paste("\\listoffigures", "\\newpage", sep = "  ")`
 
