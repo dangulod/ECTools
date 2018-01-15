@@ -2,28 +2,34 @@
   \psset{unit=1in,linewidth=2pt}
     {\psline(0,5)(0,-\paperheight)}
     \psline(0.55,5)(0.55,-\paperheight)
-      \rput[lb]{90}(0.4,-0.83\paperheight){\red\huge\textbf{Economic Capital Models Development - Santander Analytics}}
+      \rput[lb]{90}(0.4,-0.83\paperheight){\red\huge\textbf{Economic Capital Models - Methodology Documentation}}
     \vspace*{3cm}
     \begin{center}
-      \huge \textbf{`r paste(params$title)`}
+      \huge \textit{\textbf{`r paste(params$title)`}}
     \vspace{0.5cm}
     \\
     \vspace{0.5cm}
+      \Large Economic Capital Models
+      \vspace{0.5cm}
+      \\
       \Large Capital, Counterparty and 
     \\
       \Large Non-Financial Risks Model Development
     \\
-    \vspace{0.5cm}
-      \Large{\bf Santander Analytics}
+    \vspace{1cm}
+      \Large{\textit{Santander Analytics}}
     \\
-    \vspace{12cm}
+     \vspace{0.5cm}
+      \Large \textit{Risk Division}
+    \\
+    \vspace{8cm}
       \includegraphics[width=5cm]{images/logo.png}
     \end{center}
 \end{titlepage}
 
 \fancyhead[LO,LE]{\includegraphics[width=2cm]{images/logo.png}}
 \fancyhead[RO,RE]{Page \thepage\ of \pageref{LastPage}}
-\fancyfoot[LO,LE]{`r paste(params$company)`}
+\fancyfoot[LO,LE]{\textit{`r paste(params$title)`} \\ `r paste(params$border)`}
 
 \begin{center}
 {\large\textbf{Executive summary}}
@@ -53,4 +59,3 @@ The information contained in this document is confidential and belongs to Banco 
 `r if (params$table_of_contents) paste("\\tableofcontents", "\\newpage", sep = "  ")`
 
 `r if (params$list_of_tables) paste("\\listoftables", "\\newpage", sep = "  ")`
-

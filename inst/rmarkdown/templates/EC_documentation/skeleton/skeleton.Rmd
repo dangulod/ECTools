@@ -1,7 +1,7 @@
 ---
 params:
   title: "2018 EC Model for XXXXX"
-  department: "Economic Capital Models Development Team"
+  department: "Economic Capital Models"
   company: "Capital, Counterparty and Non-Financial Risks Model Development"
   border: "Economic Capital Models Department"
   executive: "The objective of the current report is to describe the methodology of computing the economic capital for XXXXXXX, as well as the aggregation with the other risks within the Economic Capital Tool."

@@ -1,7 +1,7 @@
 Package: ECTools
 Type: Package
 Title: Economic Capital Tools
-Version: 0.1.4
+Version: 0.1.5
 Author: Economic Capital Models
 Maintainer: <angulo.davi@gmail.com>
 Description: Usefull functions for Economic Capital 
@@ -14,7 +14,10 @@ Depends:
     ggplot2 (>= 2.2.1), 
     tidyr,
     grid,
-    tibble
+    tibble,
+    knitr,
+    magrittr,
+    readxl
 RoxygenNote: 6.0.1
 LinkingTo: Rcpp
 Repository: CRAN
