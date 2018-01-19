@@ -7,9 +7,10 @@
 \usepackage{fancybox,framed}
 \usepackage{pst-node,pst-plot}
 \usepackage{lastpage}
-% \usepackage{indentfirst}
+\usepackage[xetex]{attachfile2}
+\usepackage{indentfirst}
 
-% \setlength{\parindent}{1cm}
+\setlength{\parindent}{1cm}
 
 \let\origfigure\figure
 \let\endorigfigure\endfigure
@@ -27,8 +28,10 @@
 \renewcommand{\footrule}{\hbox to\headwidth{
   \color{black}\leaders\hrule height \footrulewidth\hfill}}
 
+\renewcommand{\baselinestretch}{1.5}
 
 \pagestyle{fancy}
+
 
 \fancyhf{}
 
