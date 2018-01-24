@@ -14,10 +14,7 @@ Depends:
     ggplot2 (>= 2.2.1), 
     tidyr,
     grid,
-    tibble,
-    knitr,
-    magrittr,
-    readxl
+    tibble
 RoxygenNote: 6.0.1
 LinkingTo: Rcpp
 Repository: CRAN
