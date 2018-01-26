@@ -65,7 +65,7 @@ cor_optim.matrix = function(hist, ...) coroptim(hist, ...)
 
 cor_optim.list = function(hist) {
 
-  return(lapply(object, function(x) cor_optim(x)))
+  return(lapply(hist, function(x) cor_optim(x)))
 
 }
 

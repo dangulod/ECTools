@@ -38,7 +38,7 @@ qqPlot(x$serie1, y = sp)
 
 # transition matrix -------------------------------------------------------------
 
-mat = read_mat(file = "transition_matrix.xlsx")
+mat = read_mat(file = "transition_matrix.rda")
 
 tran(mat, horizon =  10)
 abs_pd(mat, horizon =  10)

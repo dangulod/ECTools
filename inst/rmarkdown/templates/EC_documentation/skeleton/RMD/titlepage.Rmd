@@ -2,7 +2,7 @@
   \psset{unit=1in,linewidth=2pt}
     {\psline(0,5)(0,-\paperheight)}
     \psline(0.55,5)(0.55,-\paperheight)
-      \rput[lb]{90}(0.4,-0.83\paperheight){\red\huge\textbf{Economic Capital Models - Methodology Documentation}}
+      \rput[lb]{90}(0.4,-0.83\paperheight){\red\huge\textbf{Economic Capital Models Development - Santander Analytics}}
     \vspace*{3cm}
     \begin{center}
       \huge \textit{\textbf{`r paste(params$title)`}}
