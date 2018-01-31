@@ -1,7 +1,7 @@
 Package: ECTools
 Type: Package
 Title: Economic Capital Tools
-Version: 0.1.5
+Version: 0.1.6
 Author: Economic Capital Models
 Maintainer: <angulo.davi@gmail.com>
 Description: Usefull functions for Economic Capital 
