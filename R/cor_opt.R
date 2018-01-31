@@ -15,6 +15,22 @@ setClass(Class = "sensitivities",
            suggestions = "numeric"),
          package = "ECTools")
 
+setClass(Class = "FX",
+         slots = c(
+           call = "language",
+           hist = "matrix",
+           map = "data.frame",
+           FX = "character",
+           lim = "numeric",
+           minFG = "numeric",
+           maxiter = "numeric",
+           sensitivities = "data.frame",
+           error = "numeric",
+           iterations = "numeric",
+           CD = "matrix",
+           suggestions = "numeric"),
+         package = "ECTools")
+
 # Optimization function ---------------------------------------------------
 
 #' Global & Local factor optimization
@@ -30,7 +46,7 @@ setClass(Class = "sensitivities",
 #' taken from detectCores. Finally, the functionality of parallelization depends on
 #' system OS: on Windows only 'snow' type functionality is available, while on Unix/Linux/Mac
 #' OSX both 'snow' and 'multicore' (default) functionalities are available.
-#' @param ... Arguments to be passed to ga function
+#' @param ... Arguments to be passed to the optimization function
 #'
 #' @examples
 #' x = cor_optim(map = map,
@@ -66,6 +82,115 @@ cor_optim.matrix = function(hist, ...) coroptim(hist, ...)
 cor_optim.list = function(hist) {
 
   return(lapply(hist, function(x) cor_optim(x)))
+
+}
+
+#' Title
+#'
+#' @param hist Matrix with historical correlation
+#' @param CD Matrix with credit drivers correlation
+#' @param map Dataframe with the correspondence
+#' @param sensitivities DataFrame. with sensitivities
+#' @param lim Numeric, limit of the sum squared of the factors, by default 1
+#' @param FX Character, name of the label of the FX
+#' @param lim Numeric, limit of the sum squared of the factors, by default 1
+#' @param parallel Logical, argument specifying if parallel computing should be used
+#' (TRUE) or not (FALSE, default) for evaluating the fitness function. This argument
+#' could also be used to specify the number of cores to employ; by default, this is
+#' taken from detectCores. Finally, the functionality of parallelization depends on
+#' system OS: on Windows only 'snow' type functionality is available, while on Unix/Linux/Mac
+#' OSX both 'snow' and 'multicore' (default) functionalities are available.
+#' @param ... Arguments to be passed to the optimization function
+#'
+#' @export
+#'
+Fx_class = function(hist = hist, CD = CD, map = map, sensitivities = sensitivities, lim = 1, FX = "FX", maxiter = 1e4, parallel = F,  minFG = 0, seed = 1, ...) {
+
+  # matrices
+
+  if (!is.matrix(hist)) stop("'hist' must be a matrix")
+  if (any(hist != t(hist))) stop ("'hist' is not a valid correlation matrix")
+
+  if (!is.matrix(CD)) stop("'CD' must be a matrix")
+  if (any(hist != t(hist))) stop ("'CD' is not a valid correlation matrix")
+
+  call = match.call()
+
+  object = new("FX",
+               call = call,
+               hist = hist,
+               map = map,
+               CD = CD,
+               sensitivities = sensitivities,
+               FX = "FX",
+               maxiter = maxiter,
+               minFG = minFG,
+               lim = lim)
+
+}
+
+cor_optim.FX = function(hist, ...) {
+
+  pos = which(hist@map[[1]] %in% hist@FX)
+
+  n = colnames(hist@CD)
+  nm = names(hist@map)[-1]
+
+  R_2 = function(FG = FG, FL = FL, RU = map, hist = hist, CD = CD, col = col, pos = pos) {
+
+    matr = mat(FG = FG, FL = as.matrix(FL), RU = RU, col = col)
+    matr = matr %*% CD %*% t(matr)
+    diag(matr) = 1
+    if (max(matr > 1)) return(1e10)
+
+    return(sum((hist[pos, ] - matr[pos, ]) ^ 2))
+  }
+
+  fitness = function(x, lim = lim) {
+
+    # seleccion
+
+    y = fgyfl(x, lim = lim, n = nm)
+
+    fit = -R_2(FG = y[,1], FL = y[,-1], RU = as.data.frame(hist@map), hist = hist@hist, CD = hist@CD, col = n, pos = pos)
+
+    return(fit)
+
+  }
+
+  if (ncol(hist@map) > 2 & hist@minFG != 0) {stop("ERROR: this option is not allowed")} else {maxFL = sqrt(hist@lim - (hist@minFG ^ 2))}
+
+  min = c(hist@sensitivities[[2]], hist@sensitivities[[3]])
+  min[pos] = hist@minFG
+  min[pos + length(hist@map[[1]])] = 0
+
+  max = c(hist@sensitivities[[2]], hist@sensitivities[[3]])
+  max[pos] = 1
+  max[pos + length(hist@map[[1]])] = maxFL
+
+  GA = ga(type = "real-valued",
+          fitness = fitness,
+          min = min,
+          max = max,
+          lim = hist@lim,
+          maxiter = hist@maxiter,
+          optim = T,
+          parallel = F,
+          seed = 1)
+
+  x = GA@solution[1,]
+
+  x = fgyfl(x, lim = hist@lim, n = nm)
+
+  hist@error = GA@fitnessValue
+  hist@iterations = GA@iter
+
+  hist@sensitivities = cbind(hist@map[,1],
+                             as.data.frame(x))
+
+  hist@suggestions = as.numeric(as.matrix(hist@sensitivities[,-1]))
+
+  return(hist)
 
 }
 
@@ -199,6 +324,18 @@ r_squared.list = function(object) {
 
 }
 
+r_squared.FX = function(object) {
+
+  r2 = get_sensitivities(object)
+
+  r2$r2 = apply(r2[,-1], 1, function(x) sum(x ^ 2))
+
+  return(r2)
+
+}
+
+
+
 summary.sensitivities <- function(object, ...) {
 
   cat("+-----------------------------------+\n")
@@ -228,6 +365,14 @@ get_sensitivities = function(object, ...) {
 get_sensitivities.sensitivities = function(object) {
 
   return(object@sensitivities)
+
+}
+
+get_sensitivities.FX = function(object) {
+
+  pos = which(object@map[[1]] %in% object@FX)
+
+  return(object@sensitivities[pos,])
 
 }
 
@@ -297,9 +442,9 @@ get_equation.sensitivities = function(object) {
 
   if (ncol(object@map) > 2) return("Not supported")
 
-  rows = object@map$RU
+  rows = object@map[[1]]
   cols = colnames(object@CD)
-  fl = as.data.frame(object@map)[,2]
+  fl = object@map[[2]]
 
   equ = matrix(0,
                nrow = length(rows),
@@ -320,11 +465,52 @@ get_equation.sensitivities = function(object) {
   return(equ)
 }
 
+get_equation.FX = function(object) {
+
+  if (ncol(object@map) > 2) return("Not supported")
+
+  pos = which(object@map[[1]] %in% object@FX)
+
+  rows = object@map[pos, ][[1]]
+  cols = colnames(object@CD)
+  fl = object@map[pos, ][[2]]
+
+  equ = matrix(0,
+               nrow = length(rows),
+               ncol = length(cols),
+               dimnames = list(
+                 rows,
+                 cols
+               ))
+
+  equ[, 1] = get_sensitivities(object)[,2]
+
+  for (i in 1:length(rows)) {
+    equ[i, fl[i]] = get_sensitivities(object)[i,3]
+  }
+
+  equ = rownames_to_column(as.data.frame(equ), var = "Equation")
+
+  return(equ)
+}
+
 get_equation.list = function(object) {
 
   return(bind_rows(lapply(object, function(x) get_equation(x))))
 
 }
+
+show.FX = function(object) {
+
+  cat("An object of class \"FX\"\n")
+  cat("\nCall:\n", deparse(object@call), "\n\n",sep = "")
+  cat("Available slots:\n")
+  print(slotNames(object))
+
+}
+
+
+
 
 # Set methods -------------------------------------------------------------
 
@@ -345,7 +531,19 @@ setMethod("get_equation", "list", get_equation.list)
 
 #' @export
 setMethod("summary", signature(object = "sensitivities"), summary.sensitivities)
+#' @export
+setMethod("summary", signature(object = "FX"), summary.sensitivities)
+
 
 setMethod("cor_optim", "matrix", cor_optim.matrix)
 setMethod("cor_optim", "list", cor_optim.list)
 setMethod("cor_optim", "sensitivities", cor_optim.sensitivities)
+setMethod("cor_optim", "FX", cor_optim.FX)
+
+# FX
+setMethod("show", "FX", show.FX)
+setMethod("print", "FX", function(x, ...) str(x))
+setMethod("r_squared", "FX", r_squared.FX)
+setMethod("get_sensitivities", "FX", get_sensitivities.FX)
+setMethod("fitted_cor", "FX", fitted_cor.sensitivities)
+setMethod("get_equation", "FX", get_equation.sensitivities)
